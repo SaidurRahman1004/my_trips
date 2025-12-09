@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/auth/signin.dart';
+import '../screens/auth/signin_screen.dart';
 import '../screens/home/home_screen.dart';
 
 class AuthWrapper extends StatelessWidget {
@@ -17,7 +17,7 @@ class AuthWrapper extends StatelessWidget {
       if(snap.hasData && snap.data != null){
         return Home();
       }else{
-        return signin();
+        return SignInScreen();
       }
     });
   }

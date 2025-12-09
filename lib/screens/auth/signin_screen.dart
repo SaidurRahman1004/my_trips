@@ -6,20 +6,19 @@ import 'package:email_validator/email_validator.dart';
 
 import '../../widgets/CenterCircularProgressIndicator.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController _nameCtrler = TextEditingController();
+class _SignInScreenState extends State<SignInScreen> {
+
   final TextEditingController _emailCtrler = TextEditingController();
   final TextEditingController _PassCtrler = TextEditingController();
-  final TextEditingController _ConfirmPassCtrler = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  bool _isSignupProgress = false;
+  bool _isSigninProgress = false;
   bool _agreeToTerms = false;
 
   @override
@@ -41,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 Text(
-                  'Start your travel journey',
+                  'Save your travel memories',
                   style: GoogleFonts.poppins(fontSize: 25, color: Colors.grey),
                 ),
                 SizedBox(height: 30),
@@ -67,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       children: [
                         Text(
-                          'Create a new account',
+                          'Login',
                           style: GoogleFonts.poppins(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -75,37 +74,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             letterSpacing: 2,
                           ),
                         ),
-                        Text(
-                          'Start saving your travel memories',
-                          style: GoogleFonts.poppins(
-                            fontSize: 13,
-
-                            color: Colors.grey,
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        TextFormField(
-                          controller: _nameCtrler,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please Enter Your Name';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.person),
-                            labelText: "Full Name",
-                            hintText: 'Enter Your Full Name',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
                         SizedBox(height: 20),
                         TextFormField(
                           controller: _emailCtrler,
                           validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
+                            if (value == null || value
+                                .trim()
+                                .isEmpty) {
                               return 'Please enter your email';
                             } else if (!EmailValidator.validate(value)) {
                               return 'Please enter a valid email';
@@ -126,9 +101,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           controller: _PassCtrler,
                           obscureText: true,
                           validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
+                            if (value == null || value
+                                .trim()
+                                .isEmpty) {
                               return 'Please enter your password';
-                            } else if (value.trim().length < 6) {
+                            } else if (value
+                                .trim()
+                                .length < 6) {
                               return 'Password must be at least 6 characters';
                             }
                             return null;
@@ -136,30 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.person),
                             labelText: "Password",
-                            hintText: 'Create Strong Password',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(height: 20),
-                        TextFormField(
-                          controller: _ConfirmPassCtrler,
-                          obscureText: true,
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return 'Please re-enter your password';
-                            }
-                            if (value != _PassCtrler.text) {
-                              return 'Password must be at least 6 characters';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
-                            labelText: "Confirm Password",
-                            hintText: 'Re-Enter Password',
+                            hintText: 'Enter Your Valid Password',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -177,41 +133,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               },
                             ),
                             Expanded(
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'I agree to the ',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 16,
-                                    color: Colors.grey,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: ' Terms of Use and Privacy Policy',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 13,
-                                        color: Colors.amber,
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = _onRouteSignUp,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                              child: Text(
+                                'Remember me', style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),),),
                           ],
                         ),
 
                         SizedBox(height: 30),
                         Visibility(
-                          visible: _isSignupProgress == false,
+                          visible: _isSigninProgress == false,
                           replacement: CenterCircularProgressIndicator(),
                           child: SizedBox(
                             width: double.infinity,
                             height: 45,
                             child: FilledButton(
-                              onPressed: _onSignUp,
+                              onPressed: _onSignIn,
                               child: Text(
-                                'Create an account',
+                                'Login',
                                 style: GoogleFonts.poppins(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -230,22 +170,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                         SizedBox(height: 20),
+                        TextButton(onPressed: onForgetPassword, child: Text(
+                            'Forgot your password?',
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              color: Colors.blueAccent,
+                            ),
+
+                        )),
+
+                        Divider(),
                         RichText(
                           text: TextSpan(
-                            text: 'Already have an account?',
+                            text: 'New users? ',
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                               color: Colors.grey,
                             ),
                             children: [
                               TextSpan(
-                                text: ' Sign In',
+                                text: ' Register Now',
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   color: Colors.amber,
                                 ),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = _onRouteSignUp,
+                                  ..onTap = _onRouteSignIn,
                               ),
                             ],
                           ),
@@ -262,7 +212,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onSignUp() {}
+  void _onSignIn() {}
 
-  void _onRouteSignUp() {}
+  void _onRouteSignIn() {}
+
+  void onForgetPassword() {
+  }
 }
