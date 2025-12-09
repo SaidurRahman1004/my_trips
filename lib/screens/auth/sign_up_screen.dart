@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_trips/widgets/custo_snk.dart';
 import '../../Core/constant.dart';
 import 'package:email_validator/email_validator.dart';
+import '../../services/auth_service.dart';
 import '../../widgets/CenterCircularProgressIndicator.dart';
 import '../../widgets/custom_text_field.dart';
 
@@ -21,6 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool _isSignupProgress = false;
   bool _agreeToTerms = false;
+  final _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.trip_origin, size: 100, color: Colors.amber),
+                const Icon(Icons.trip_origin, size: 80, color: Colors.amber),
                 const SizedBox(height: 10),
                 Text(
                   AppConst.AppName,
@@ -42,11 +46,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Text(
                   'Start your travel journey',
-                  style: GoogleFonts.poppins(fontSize: 25, color: Colors.grey),
+                  style: GoogleFonts.poppins(fontSize: 18, color: Colors.grey),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 25),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  margin: const EdgeInsets.symmetric(horizontal: 25),
                   padding: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -68,10 +72,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Text(
                           'Create a new account',
                           style: GoogleFonts.poppins(
-                            fontSize: 25,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Colors.amber,
-                            letterSpacing: 2,
                           ),
                         ),
                         Text(
@@ -102,9 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           icon: Icons.email,
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
-                            if (value == null || value
-                                .trim()
-                                .isEmpty) {
+                            if (value == null || value.trim().isEmpty) {
                               return 'Please enter your email';
                             } else if (!EmailValidator.validate(value)) {
                               return 'Please enter a valid email';
@@ -122,13 +123,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           obscureText: true,
                           isPassword: true,
                           validator: (value) {
-                            if (value == null || value
-                                .trim()
-                                .isEmpty) {
+                            if (value == null || value.trim().isEmpty) {
                               return 'Please enter your password';
-                            } else if (value
-                                .trim()
-                                .length < 6) {
+                            } else if (value.trim().length < 6) {
                               return 'Password must be at least 6 characters';
                             }
                             return null;
@@ -143,9 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           obscureText: true,
                           isPassword: true,
                           validator: (value) {
-                            if (value == null || value
-                                .trim()
-                                .isEmpty) {
+                            if (value == null || value.trim().isEmpty) {
                               return 'Please re-enter your password';
                             }
                             if (value != _PassCtrler.text) {
@@ -170,14 +165,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 text: TextSpan(
                                   text: 'I agree to the ',
                                   style: GoogleFonts.poppins(
-                                    fontSize: 16,
+                                    fontSize: 10,
                                     color: Colors.grey,
                                   ),
                                   children: [
                                     TextSpan(
                                       text: ' Terms of Use and Privacy Policy',
                                       style: GoogleFonts.poppins(
-                                        fontSize: 13,
+                                        fontSize: 9,
                                         color: Colors.amber,
                                       ),
                                       recognizer: TapGestureRecognizer()
@@ -192,7 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(height: 30),
                         Visibility(
                           visible: _isSignupProgress == false,
-                          replacement:  CenterCircularProgressIndicator(),
+                          replacement: CenterCircularProgressIndicator(),
                           child: SizedBox(
                             width: double.infinity,
                             height: 45,
@@ -205,13 +200,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 15),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 15,
+                                ),
                               ),
                               child: Text(
                                 'Create an account',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 18,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -223,14 +219,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           text: TextSpan(
                             text: 'Already have an account?',
                             style: GoogleFonts.poppins(
-                              fontSize: 16,
+                              fontSize: 12,
                               color: Colors.grey,
                             ),
                             children: [
                               TextSpan(
                                 text: ' Sign In',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
+                                  fontSize: 13,
                                   color: Colors.amber,
                                 ),
                                 recognizer: TapGestureRecognizer()
@@ -251,7 +247,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onSignUp() {}
+  void _onSignUp() {
+    if (_formkey.currentState!.validate()) {
+      _signUp();
+    }
+  }
 
-  void _onRouteSignUp() {}
+  void _onRouteSignUp() {
+    context.go('/login');
+  }
+
+  //Sing Up Functions
+  Future<void> _signUp() async {
+    if (_agreeToTerms == false) {
+      mySnkmsg('Please agree to the terms and conditions', context);
+      return;
+    }
+
+    setState(() {
+      _isSignupProgress = true;
+    });
+
+    try {
+      final newUser = await _authService.signUpWithEmailAndPassword(
+        email: _emailCtrler.text.trim(),
+        password: _PassCtrler.text,
+        name: _nameCtrler.text.trim(),
+      );
+      if (!mounted) return;
+      if (newUser != null) {
+        mySnkmsg('Account Created Successfully', context);
+        //Route Login
+      } else {
+        mySnkmsg('Something Went Wrong', context);
+      }
+    } catch (e) {
+      if (mounted) {
+        mySnkmsg(e.toString(), context);
+      }
+    } finally {
+      if(mounted){
+        setState(() {
+          _isSignupProgress = false;
+        });
+      }
+
+
+    }
+  }
 }

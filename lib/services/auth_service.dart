@@ -11,7 +11,7 @@ class AuthService {
   //cheak User Login Status
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
-  Future<User?> signInWithEmailAndPassword({
+  Future<User?> signUpWithEmailAndPassword({
     required String email,
     required String password,
     required String name,

@@ -15,7 +15,7 @@ class AuthWrapper extends StatelessWidget {
         return Center(child: CircularProgressIndicator(),);
       }
       if(snap.hasData && snap.data != null){
-        return Home();
+        return HomeScreen();
       }else{
         return SignInScreen();
       }

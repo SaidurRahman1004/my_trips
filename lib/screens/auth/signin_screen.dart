@@ -1,9 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_trips/widgets/CenterCircularProgressIndicator.dart';
 import '../../Core/constant.dart';
 import 'package:email_validator/email_validator.dart';
+import '../../services/auth_service.dart';
+import '../../widgets/custo_snk.dart';
 import '../../widgets/custom_text_field.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -19,6 +22,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool _isSigninProgress = false;
   bool _agreeToTerms = false;
+  final _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.trip_origin, size: 100, color: Colors.amber),
+                const Icon(Icons.trip_origin, size: 80, color: Colors.amber),
                 const SizedBox(height: 10),
                 Text(
                   AppConst.AppName,
@@ -40,11 +44,11 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 Text(
                   'Save your travel memories',
-                  style: GoogleFonts.poppins(fontSize: 25, color: Colors.grey),
+                  style: GoogleFonts.poppins(fontSize: 18, color: Colors.grey),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 25),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  margin: const EdgeInsets.symmetric(horizontal: 25),
                   padding: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -112,7 +116,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             return null;
                           },
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 15),
                         Row(
                           children: [
                             Checkbox(
@@ -134,7 +138,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 20),
                         Visibility(
                           visible: _isSigninProgress == false,
                           replacement:  CenterCircularProgressIndicator(),
@@ -156,7 +160,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               child: Text(
                                 'Login',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 18,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -206,9 +210,44 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  void _onSignIn() {}
+  void _onSignIn() {
+    if (_formkey.currentState!.validate()) {
+      _signIn();
+    }
 
-  void _onRouteSignIn() {}
+  }
+
+  void _onRouteSignIn() {
+    context.go('/signup');
+  }
 
   void onForgetPassword() {}
+
+  Future<void> _signIn() async{
+    setState(() {
+      _isSigninProgress = true;
+    });
+
+    try{
+      final loginUser = await  _authService.loginWithEmailAndPassword(email: _emailCtrler.text.trim(), password: _PassCtrler.text);
+      if (!mounted) return;
+      if(loginUser != null){
+        mySnkmsg('Login Successfully', context);
+        //Route
+      }else{
+        mySnkmsg('Something Went Wrong', context);
+      }
+    }catch(e){
+      if(!mounted){
+        mySnkmsg(e.toString(), context);
+      }
+    }finally{
+      if(mounted){
+        setState(() {
+          _isSigninProgress = false;
+        });
+      }
+
+    }
+  }
 }
