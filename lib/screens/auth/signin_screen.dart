@@ -1,10 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_trips/widgets/CenterCircularProgressIndicator.dart';
 import '../../Core/constant.dart';
 import 'package:email_validator/email_validator.dart';
-
-import '../../widgets/CenterCircularProgressIndicator.dart';
+import '../../widgets/custom_text_field.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -14,7 +14,6 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-
   final TextEditingController _emailCtrler = TextEditingController();
   final TextEditingController _PassCtrler = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
@@ -30,8 +29,8 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.trip_origin, size: 100, color: Colors.amber),
-                SizedBox(height: 10),
+                const Icon(Icons.trip_origin, size: 100, color: Colors.amber),
+                const SizedBox(height: 10),
                 Text(
                   AppConst.AppName,
                   style: GoogleFonts.poppins(
@@ -43,10 +42,10 @@ class _SignInScreenState extends State<SignInScreen> {
                   'Save your travel memories',
                   style: GoogleFonts.poppins(fontSize: 25, color: Colors.grey),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 30),
-                  padding: EdgeInsets.all(30),
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -55,11 +54,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 2,
                         blurRadius: 10,
-                        offset: Offset(0, 5),
+                        offset: const Offset(0, 5),
                       ),
                     ],
                   ),
-
                   child: Form(
                     key: _formkey,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -74,9 +72,13 @@ class _SignInScreenState extends State<SignInScreen> {
                             letterSpacing: 2,
                           ),
                         ),
-                        SizedBox(height: 20),
-                        TextFormField(
+                        const SizedBox(height: 20),
+                        CustomTextField(
                           controller: _emailCtrler,
+                          lableText: "Email Address",
+                          hintText: 'Enter Email Adress',
+                          icon: Icons.email,
+                          keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value == null || value
                                 .trim()
@@ -87,19 +89,16 @@ class _SignInScreenState extends State<SignInScreen> {
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.email),
-                            labelText: "Email Address",
-                            hintText: 'Enter Email Adress',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
                         ),
-                        SizedBox(height: 20),
-                        TextFormField(
+                        const SizedBox(height: 20),
+                        CustomTextField(
                           controller: _PassCtrler,
+                          lableText: "Password",
+                          hintText: 'Enter Your Valid Password',
+                          icon: Icons.lock,
+                          // Changed from Icons.person for better context
                           obscureText: true,
+                          isPassword: true,
                           validator: (value) {
                             if (value == null || value
                                 .trim()
@@ -112,14 +111,6 @@ class _SignInScreenState extends State<SignInScreen> {
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.person),
-                            labelText: "Password",
-                            hintText: 'Enter Your Valid Password',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
                         ),
                         const SizedBox(height: 20),
                         Row(
@@ -134,29 +125,24 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                             Expanded(
                               child: Text(
-                                'Remember me', style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                color: Colors.grey,
-                              ),),),
+                                'Remember me',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Visibility(
                           visible: _isSigninProgress == false,
-                          replacement: CenterCircularProgressIndicator(),
+                          replacement:  CenterCircularProgressIndicator(),
                           child: SizedBox(
                             width: double.infinity,
                             height: 45,
                             child: FilledButton(
                               onPressed: _onSignIn,
-                              child: Text(
-                                'Login',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.amber,
                                 foregroundColor: Colors.white,
@@ -164,22 +150,30 @@ class _SignInScreenState extends State<SignInScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                padding: EdgeInsets.symmetric(vertical: 15),
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 15),
+                              ),
+                              child: Text(
+                                'Login',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
-                        TextButton(onPressed: onForgetPassword, child: Text(
-                            'Forgot your password?',
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              color: Colors.blueAccent,
-                            ),
-
-                        )),
-
-                        Divider(),
+                        const SizedBox(height: 20),
+                        TextButton(
+                            onPressed: onForgetPassword,
+                            child: Text(
+                              'Forgot your password?',
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                color: Colors.blueAccent,
+                              ),
+                            )),
+                        const Divider(),
                         RichText(
                           text: TextSpan(
                             text: 'New users? ',
@@ -216,6 +210,5 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onRouteSignIn() {}
 
-  void onForgetPassword() {
-  }
+  void onForgetPassword() {}
 }

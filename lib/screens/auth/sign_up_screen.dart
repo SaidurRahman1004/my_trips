@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../Core/constant.dart';
 import 'package:email_validator/email_validator.dart';
-
 import '../../widgets/CenterCircularProgressIndicator.dart';
+import '../../widgets/custom_text_field.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -31,8 +31,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.trip_origin, size: 100, color: Colors.amber),
-                SizedBox(height: 10),
+                const Icon(Icons.trip_origin, size: 100, color: Colors.amber),
+                const SizedBox(height: 10),
                 Text(
                   AppConst.AppName,
                   style: GoogleFonts.poppins(
@@ -44,10 +44,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   'Start your travel journey',
                   style: GoogleFonts.poppins(fontSize: 25, color: Colors.grey),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 30),
-                  padding: EdgeInsets.all(30),
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -56,11 +56,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 2,
                         blurRadius: 10,
-                        offset: Offset(0, 5),
+                        offset: const Offset(0, 5),
                       ),
                     ],
                   ),
-
                   child: Form(
                     key: _formkey,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -79,91 +78,81 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           'Start saving your travel memories',
                           style: GoogleFonts.poppins(
                             fontSize: 13,
-
                             color: Colors.grey,
                           ),
                         ),
-                        SizedBox(height: 20),
-                        TextFormField(
+                        const SizedBox(height: 20),
+                        CustomTextField(
                           controller: _nameCtrler,
+                          lableText: "Full Name",
+                          hintText: 'Enter Your Full Name',
+                          icon: Icons.person,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please Enter Your Name';
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.person),
-                            labelText: "Full Name",
-                            hintText: 'Enter Your Full Name',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
                         ),
-                        SizedBox(height: 20),
-                        TextFormField(
+                        const SizedBox(height: 20),
+                        CustomTextField(
                           controller: _emailCtrler,
+                          lableText: "Email Address",
+                          hintText: 'Enter Email Adress',
+                          icon: Icons.email,
+                          keyboardType: TextInputType.emailAddress,
                           validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
+                            if (value == null || value
+                                .trim()
+                                .isEmpty) {
                               return 'Please enter your email';
                             } else if (!EmailValidator.validate(value)) {
                               return 'Please enter a valid email';
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.email),
-                            labelText: "Email Address",
-                            hintText: 'Enter Email Adress',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
                         ),
-                        SizedBox(height: 20),
-                        TextFormField(
+                        const SizedBox(height: 20),
+                        CustomTextField(
                           controller: _PassCtrler,
+                          lableText: "Password",
+                          hintText: 'Create Strong Password',
+                          icon: Icons.lock,
+                          // Changed from Icons.person
                           obscureText: true,
+                          isPassword: true,
                           validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
+                            if (value == null || value
+                                .trim()
+                                .isEmpty) {
                               return 'Please enter your password';
-                            } else if (value.trim().length < 6) {
+                            } else if (value
+                                .trim()
+                                .length < 6) {
                               return 'Password must be at least 6 characters';
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.person),
-                            labelText: "Password",
-                            hintText: 'Create Strong Password',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
                         ),
-
-                        SizedBox(height: 20),
-                        TextFormField(
+                        const SizedBox(height: 20),
+                        CustomTextField(
                           controller: _ConfirmPassCtrler,
+                          lableText: "Confirm Password",
+                          hintText: 'Re-Enter Password',
+                          icon: Icons.lock,
                           obscureText: true,
+                          isPassword: true,
                           validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
+                            if (value == null || value
+                                .trim()
+                                .isEmpty) {
                               return 'Please re-enter your password';
                             }
                             if (value != _PassCtrler.text) {
-                              return 'Password must be at least 6 characters';
+                              return 'Passwords do not match';
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
-                            labelText: "Confirm Password",
-                            hintText: 'Re-Enter Password',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
                         ),
                         const SizedBox(height: 20),
                         Row(
@@ -200,23 +189,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ],
                         ),
-
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Visibility(
                           visible: _isSignupProgress == false,
-                          replacement: CenterCircularProgressIndicator(),
+                          replacement:  CenterCircularProgressIndicator(),
                           child: SizedBox(
                             width: double.infinity,
                             height: 45,
                             child: FilledButton(
                               onPressed: _onSignUp,
-                              child: Text(
-                                'Create an account',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.amber,
                                 foregroundColor: Colors.white,
@@ -224,12 +205,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                padding: EdgeInsets.symmetric(vertical: 15),
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 15),
+                              ),
+                              child: Text(
+                                'Create an account',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         RichText(
                           text: TextSpan(
                             text: 'Already have an account?',
