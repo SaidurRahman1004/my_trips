@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../services/auth_service.dart';
+import '../../widgets/trip_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,7 +18,13 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: const Center(
-        child: Text("Welcome to TravelSnap Dashboard!"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Home Screen"),
+            //TripCard(tripModel: , onDelete: onDelete)
+          ],
+        )
       ),
     );
   }

@@ -233,7 +233,7 @@ class _SignInScreenState extends State<SignInScreen> {
       if (!mounted) return;
       if(loginUser != null){
         mySnkmsg('Login Successfully', context);
-        //Route
+        context.go('/home');
       }else{
         mySnkmsg('Something Went Wrong', context);
       }

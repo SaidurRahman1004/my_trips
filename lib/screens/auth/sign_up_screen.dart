@@ -274,10 +274,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password: _PassCtrler.text,
         name: _nameCtrler.text.trim(),
       );
-      if (!mounted) return;
+      //if (!mounted) return;
       if (newUser != null) {
         mySnkmsg('Account Created Successfully', context);
-        //Route Login
+        context.go('/login');
       } else {
         mySnkmsg('Something Went Wrong', context);
       }
