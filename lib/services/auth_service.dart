@@ -7,7 +7,6 @@ class AuthService {
   //Instance of Auth and fireStroe
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   //cheak User Login Status
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 

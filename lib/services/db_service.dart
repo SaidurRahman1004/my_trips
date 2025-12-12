@@ -16,7 +16,7 @@ class DBService {
 
 
   //delet data
-  Future<void> _deletTrip(String tripId) async {
+  Future<void> deletTrip(String tripId) async {
     _db.collection('trips').doc(tripId).delete();
   }
 
