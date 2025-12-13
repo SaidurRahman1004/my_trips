@@ -1,4 +1,4 @@
 class AppConst{
-  static String AppName = 'MyTrips';
+  static String AppName = 'TravelSnap';
 
 }

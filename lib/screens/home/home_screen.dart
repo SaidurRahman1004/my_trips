@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_trips/models/trip_model.dart';
 import 'package:my_trips/widgets/CenterCircularProgressIndicator.dart';
 import 'package:my_trips/widgets/custo_snk.dart';
+import '../../Core/constant.dart';
 import '../../services/auth_service.dart';
 import '../../services/db_service.dart';
 import '../../widgets/search_widget.dart';
@@ -25,8 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: FlutterLogo(),
-        title: const Text("My Trips"),
+        leading: Icon(Icons.trip_origin, size: 50, color: Colors.amber),
+        title: Text(AppConst.AppName),
         actions: [
           CircleAvatar(
             backgroundColor: Colors.amber.shade100,
@@ -93,8 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.trip_origin, size: 80,
-                              color: Colors.amber),
+                          Icon(
+                            Icons.warning_amber,
+                            size: 80,
+                            color: Colors.amber,
+                          ),
                           const SizedBox(height: 10),
                           Text(
                             "No Trips Found",
@@ -106,27 +110,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           const SizedBox(height: 10),
                           Text(
-                              "Add your first trip",
-                              style: GoogleFonts.poppins(
-                                fontSize: 15,
-                              )),
-
-
+                            "Add your first trip",
+                            style: GoogleFonts.poppins(fontSize: 15),
+                          ),
                         ],
                       ),
-
                     );
                   }
 
                   return ListView.builder(
-                      itemCount: tripsList.length,
-                      itemBuilder: (context, index) {
-                        final AccesstripList = tripsList[index];
-                        return TripCard(
-                            tripModel: AccesstripList, onDelete: (){
-                              _showDeleteDialog(context, AccesstripList.id);
-                        });
-                      });
+                    itemCount: tripsList.length,
+                    itemBuilder: (context, index) {
+                      final AccesstripList = tripsList[index];
+                      return TripCard(
+                        tripModel: AccesstripList,
+                        onDelete: () {
+                          _showDeleteDialog(context, AccesstripList.id);
+                        },
+                      );
+                    },
+                  );
                 },
               ),
             ),
@@ -135,6 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       floatingActionButton: FloatingActionButton(
+        hoverElevation: 5,
         onPressed: _onAddTrip,
         child: const Icon(Icons.add),
         backgroundColor: Colors.amber,
@@ -146,35 +150,40 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onAddTrip() {}
 
-//Delete Alert Dialog
-  Future<void> _showDeleteDialog(context, String tripId) async{
-    final bool? _confirmDelete = await showDialog<bool>(context: context, builder: (_)=>AlertDialog(
-      title: Text('Delete Trip'),
-      content: Text('Are you sure you want to delete this trip?'),
-      actions: [
-        TextButton(onPressed: (){
-          Navigator.of(context).pop(false);
-        }, child: Text('Cancel')),
-        TextButton(onPressed: (){
-          Navigator.of(context).pop(true);
-        }, child: Text('Delete')),
-      ],
-    ));
-    if(_confirmDelete == true){
-      try{
+  //Delete Alert Dialog
+  Future<void> _showDeleteDialog(context, String tripId) async {
+    final bool? _confirmDelete = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Delete Trip'),
+        content: Text('Are you sure you want to delete this trip?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (_confirmDelete == true) {
+      try {
         await _dbService.deletTrip(tripId);
-        if(mounted){
+        if (mounted) {
           mySnkmsg('Trip Deleted Successfully', context);
         }
-      }catch(e){
-        if(mounted){
+      } catch (e) {
+        if (mounted) {
           mySnkmsg(e.toString(), context);
         }
       }
     }
   }
-
-
-
-
 }
