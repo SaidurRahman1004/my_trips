@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_trips/models/trip_model.dart';
 import 'package:my_trips/widgets/CenterCircularProgressIndicator.dart';
+import 'package:my_trips/widgets/custo_snk.dart';
 import '../../services/auth_service.dart';
 import '../../services/db_service.dart';
 import '../../widgets/search_widget.dart';
@@ -120,11 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   return ListView.builder(
                       itemCount: tripsList.length,
                       itemBuilder: (context, index) {
-                        final tripModel = tripsList[index];
+                        final AccesstripList = tripsList[index];
                         return TripCard(
-                            tripModel: tripModel, onDelete: () async{
-
-
+                            tripModel: AccesstripList, onDelete: (){
+                              _showDeleteDialog(context, AccesstripList.id);
                         });
                       });
                 },
@@ -145,6 +145,36 @@ class _HomeScreenState extends State<HomeScreen> {
   void onProfileRouter() {}
 
   void _onAddTrip() {}
+
+//Delete Alert Dialog
+  Future<void> _showDeleteDialog(context, String tripId) async{
+    final bool? _confirmDelete = await showDialog<bool>(context: context, builder: (_)=>AlertDialog(
+      title: Text('Delete Trip'),
+      content: Text('Are you sure you want to delete this trip?'),
+      actions: [
+        TextButton(onPressed: (){
+          Navigator.of(context).pop(false);
+        }, child: Text('Cancel')),
+        TextButton(onPressed: (){
+          Navigator.of(context).pop(true);
+        }, child: Text('Delete')),
+      ],
+    ));
+    if(_confirmDelete == true){
+      try{
+        await _dbService.deletTrip(tripId);
+        if(mounted){
+          mySnkmsg('Trip Deleted Successfully', context);
+        }
+      }catch(e){
+        if(mounted){
+          mySnkmsg(e.toString(), context);
+        }
+      }
+    }
+  }
+
+
 
 
 }
