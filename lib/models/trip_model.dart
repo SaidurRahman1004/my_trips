@@ -49,8 +49,8 @@ factory TripModel.fromMap(Map<String, dynamic> map, String documentId){
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       location: map['location'] ?? '',
-      latitude: map['latitude'] ?? '',
-      longitude: map['longitude'] ?? '',
+      latitude: (map['latitude'] ??  0.0).toDouble(),
+      longitude:(map['longitude'] ?? 0.0).toDouble(),
       imageUrl: map['imageUrl'] ?? '',
       date: (map['date'] as Timestamp).toDate(),
   );

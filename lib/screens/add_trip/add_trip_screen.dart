@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_trips/widgets/CenterCircularProgressIndicator.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
@@ -213,79 +214,75 @@ class _AddTripScreenState extends State<AddTripScreen> {
 
                         Stack(
                           children: [
-                            Flexible(
-                              child: Container(
-                                width: double.infinity,
-                                height: 380,
-                                decoration: BoxDecoration(
-                                  color: Colors.blue,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
+                            Container(
+                              width: double.infinity,
+                              height: 380,
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            Flexible(
-                              child: Positioned(
-                                bottom: 0,
-                                left: 5,
-                                right: 0,
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 400,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade100,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on_rounded,
-                                              color: Colors.red,
-                                              size: 35,
-                                            ),
-                                            Txt(
-                                              txt: 'Trip Location',
-                                              fntSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 30),
-                                        Txt(
-                                          txt: _locationAddress,
-                                          fntSize: 18,
-                                          color: Colors.grey,
-                                        ),
-                                        const SizedBox(height: 40),
-                                        Txt(
-                                          txt: 'Latitude:  ${_lat ?? '__'}',
-                                          fntSize: 17,
-                                          color: Colors.grey,
-                                        ),
-                                        const SizedBox(height: 40),
-                                        Txt(
-                                          txt: 'Longitude: ${_lon ?? '__'}',
-                                          fntSize: 17,
-                                          color: Colors.grey,
-                                        ),
-                                        const SizedBox(height: 50),
-                                        Align(
-                                          alignment: Alignment.centerRight,
-                                          child: CustomButton(
-                                            buttonName: "Get Location",
-                                            onPressed: _locationPressed,
-                                            icon: Icons.location_pin,
-                                            width: 220,
-                                            height: 50,
+                            Positioned(
+                              bottom: 0,
+                              left: 5,
+                              right: 0,
+                              child: Container(
+                                width: double.infinity,
+                                height: 400,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.location_on_rounded,
+                                            color: Colors.red,
+                                            size: 35,
                                           ),
+                                          Txt(
+                                            txt: 'Trip Location',
+                                            fntSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 30),
+                                      Txt(
+                                        txt: _locationAddress,
+                                        fntSize: 18,
+                                        color: Colors.grey,
+                                      ),
+                                      const SizedBox(height: 40),
+                                      Txt(
+                                        txt: 'Latitude:  ${_lat ?? '__'}',
+                                        fntSize: 17,
+                                        color: Colors.grey,
+                                      ),
+                                      const SizedBox(height: 40),
+                                      Txt(
+                                        txt: 'Longitude: ${_lon ?? '__'}',
+                                        fntSize: 17,
+                                        color: Colors.grey,
+                                      ),
+                                      const SizedBox(height: 50),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: CustomButton(
+                                          buttonName: "Get Location",
+                                          onPressed: _locationPressed,
+                                          icon: Icons.location_pin,
+                                          width: 220,
+                                          height: 50,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -362,7 +359,13 @@ class _AddTripScreenState extends State<AddTripScreen> {
       await _dbService.saveTrip(newTrip);
       if (mounted) {
         mySnkmsg('Trip Saved Successfully', context);
-        Navigator.of(context).pop();
+        WidgetsBinding.instance.addPostFrameCallback((_){
+          if(mounted){
+            _titleCtrler.clear();
+            _detailCtrler.clear();
+            context.go('/home');
+          }
+        });
       }
     } catch (e) {
       debugPrint(e.toString());
