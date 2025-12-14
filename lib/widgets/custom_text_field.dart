@@ -4,10 +4,11 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
 
   final String lableText;
-  final String hintText;
-  final IconData icon;
+  final String? hintText;
+  final IconData? icon;
   final bool obscureText;
   final bool isPassword;
+  final int maxLine;
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
 
@@ -15,10 +16,11 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.lableText,
-    required this.hintText,
-    required this.icon,
+     this.hintText,
+     this.icon,
     this.obscureText = false,
     this.isPassword = false,
+    this.maxLine = 1,
     this.validator,
     this.keyboardType = TextInputType.text,
   });
@@ -30,6 +32,7 @@ class CustomTextField extends StatelessWidget {
       obscureText: obscureText,
       validator: validator,
       keyboardType: keyboardType,
+      maxLines: maxLine,
       decoration: InputDecoration(
         prefixIcon: Icon(icon),
         labelText: lableText,

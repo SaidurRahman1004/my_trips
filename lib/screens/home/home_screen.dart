@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_trips/models/trip_model.dart';
 import 'package:my_trips/widgets/CenterCircularProgressIndicator.dart';
@@ -148,7 +149,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onProfileRouter() {}
 
-  void _onAddTrip() {}
+  void _onAddTrip() {
+    context.go('/addscreen');
+  }
 
   //Delete Alert Dialog
   Future<void> _showDeleteDialog(context, String tripId) async {

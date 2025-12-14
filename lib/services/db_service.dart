@@ -11,7 +11,7 @@ class DBService {
 //Fetch Data
   Stream<List<TripModel>> getTripData(String uid) {
     return _db.collection('trips').where('userId', isEqualTo: uid).orderBy(
-        'date', descending: true).snapshots().map((snapshots){
+        'date', descending: true).limit(50).snapshots().map((snapshots){
           return snapshots.docs.map((doc){
             return TripModel.fromMap( doc.data(), doc.id);
           }).toList();
