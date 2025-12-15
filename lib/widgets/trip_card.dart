@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_trips/models/trip_model.dart';
 import 'package:intl/intl.dart';
+
+import 'custom_button.dart';
 
 class TripCard extends StatelessWidget {
   final TripModel tripModel;
@@ -19,11 +22,14 @@ class TripCard extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Image.network(
-                tripModel.imageUrl,
-                height: 200,
-                width: double.infinity,
-                fit: BoxFit.cover,
+              Hero(
+                tag: tripModel.id,
+                child: Image.network(
+                  tripModel.imageUrl,
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
               Positioned.fill(
                 child: Container(
@@ -108,14 +114,30 @@ class TripCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
 
-                Text(
-                  tripModel.description,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    color: Colors.grey,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      tripModel.description,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    CustomButton(
+                      buttonName: "Details",
+                      onPressed: ()=> context.go('/details', extra: tripModel),
+                      icon: Icons.read_more,
+                      width: 150,
+                      height: 50,
+                    ),
+
+                  ],
                 ),
+
+
 
 
 

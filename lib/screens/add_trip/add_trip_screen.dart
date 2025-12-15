@@ -239,6 +239,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      SizedBox(height: 20,),
                                       Row(
                                         children: [
                                           Icon(
