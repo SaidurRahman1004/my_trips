@@ -1,9 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
- CenterCircularProgressIndicator(){
-  return Center(child: CircularProgressIndicator(
-    color: Colors.amber,
+class CenterCircularProgressIndicator extends StatelessWidget {
+  const CenterCircularProgressIndicator({super.key});
 
-  ),);
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: Colors.amber,
+        strokeWidth: 3.0,
+      ),
+    );
+  }
 }

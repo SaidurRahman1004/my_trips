@@ -117,15 +117,17 @@ class TripCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      tripModel.description,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        color: Colors.grey,
+                    Expanded(
+                      child: Text(
+                        tripModel.description,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 5),
+                    const SizedBox(width: 10),
                     CustomButton(
                       buttonName: "Details",
                       onPressed: ()=> context.go('/details', extra: tripModel),
