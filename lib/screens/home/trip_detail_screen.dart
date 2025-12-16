@@ -1,22 +1,25 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:my_trips/models/trip_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../widgets/CustomText.dart';
 import '../../widgets/custom_button.dart';
 
-class TripDetailScreen extends StatefulWidget {
+class TripDetailScreen extends StatelessWidget {
   final TripModel trip;
 
   const TripDetailScreen({super.key, required this.trip});
 
-  @override
-  State<TripDetailScreen> createState() => _TripDetailScreenState();
-}
+  Future<void> _openMap() async {
+    final String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=${trip
+        .latitude},${trip.longitude}';
+    if (await canLaunchUrl(Uri.parse(googleMapsUrl))) {
+      await launchUrl(Uri.parse(googleMapsUrl));
+    }
+  }
 
-class _TripDetailScreenState extends State<TripDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +32,9 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
               Stack(
                 children: [
                   Hero(
-                    tag: widget.trip.id,
+                    tag: trip.id,
                     child: Image.network(
-                      widget.trip.imageUrl,
+                      trip.imageUrl,
                       width: double.infinity,
                       height: 200,
                       fit: BoxFit.cover,
@@ -44,7 +47,7 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
                     child: InkWell(
                       onTap: () => context.go('/home'),
                       child: CircleAvatar(
-                        backgroundColor: Colors.white.withOpacity(0.5),
+                        backgroundColor: Colors.white,
                         child: Icon(Icons.arrow_back),
                       ),
                     ),
@@ -52,13 +55,32 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
                 ],
               ),
               const SizedBox(height: 10),
+              Txt(
+                txt: trip.title,
+                fntSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+              Row(
+                children: [
+                  Icon(Icons.calendar_month, color: Colors.red, size: 15),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Txt(
+                      txt: DateFormat('dd MMMM, yyyy').format(trip.date),
+                      fntSize: 15,
+                      color: Colors.blue.shade400,
+                    ),
+                  ),
+                ],
+              ),
+
               Row(
                 children: [
                   Icon(Icons.location_on, color: Colors.red, size: 15),
                   const SizedBox(width: 5),
                   Expanded(
                     child: Txt(
-                      txt: widget.trip.location,
+                      txt: trip.location,
                       fntSize: 15,
                       color: Colors.black,
                     ),
@@ -71,14 +93,16 @@ class _TripDetailScreenState extends State<TripDetailScreen> {
               Txt(txt: 'The Story', fntSize: 25, fontWeight: FontWeight.bold),
               const SizedBox(height: 15),
               Txt(
-                txt: widget.trip.description,
+                txt: trip.description,
                 fntSize: 15,
                 color: Colors.grey,
               ),
               const SizedBox(height: 20),
               CustomButton(
-                buttonName: 'Back',
-                onPressed: () => Navigator.pop(context),
+                icon: Icons.map_outlined,
+                buttonName: 'Open Google Maps',
+                onPressed: () => _openMap(),
+                color: Colors.amber,
               ),
             ],
           ),

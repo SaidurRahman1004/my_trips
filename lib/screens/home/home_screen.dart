@@ -123,11 +123,28 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: tripsList.length,
                     itemBuilder: (context, index) {
                       final AccesstripList = tripsList[index];
-                      return TripCard(
-                        tripModel: AccesstripList,
-                        onDelete: () {
-                          _showDeleteDialog(context, AccesstripList.id);
-                        },
+                      return TweenAnimationBuilder(
+                        tween: Tween<double>(begin: 0, end: 1),
+                        duration: Duration(milliseconds: 400 + (index * 100)),
+                        builder:
+                            (
+                              BuildContext context,
+                              double value,
+                              child,
+                            ) {
+                          return Opacity(
+                            opacity: value,
+                            child: Transform.translate(offset: Offset(0, 30*(1-value)),
+                              child: child,
+                            ),
+                          );
+                            },
+                        child: TripCard(
+                          tripModel: AccesstripList,
+                          onDelete: () {
+                            _showDeleteDialog(context, AccesstripList.id);
+                          },
+                        ),
                       );
                     },
                   );
