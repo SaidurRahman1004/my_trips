@@ -8,6 +8,7 @@ import 'package:my_trips/widgets/custo_snk.dart';
 import '../../Core/constant.dart';
 import '../../services/auth_service.dart';
 import '../../services/db_service.dart';
+import '../../widgets/custom_appbar.dart';
 import '../../widgets/search_widget.dart';
 import '../../widgets/trip_card.dart';
 
@@ -26,23 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.trip_origin, size: 50, color: Colors.amber),
-        title: Text(AppConst.AppName),
-        actions: [
-          CircleAvatar(
-            backgroundColor: Colors.amber.shade100,
-            child: IconButton(
-              onPressed: onProfileRouter,
-              icon: Icon(Icons.person),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => AuthService().logOut(),
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(title: 'TravelSnap', showProfileIcon: true),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -164,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void onProfileRouter() {}
+
 
   void _onAddTrip() {
     context.go('/addscreen');

@@ -3,11 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Txt extends StatelessWidget {
   final String txt;
-  final double fntSize;
+  final double? fntSize;
   final FontWeight? fontWeight;
   final Color? color;
 
-  const Txt({super.key, required this.txt, required this.fntSize,  this.fontWeight,  this.color});
+  const Txt({super.key, required this.txt,  this.fntSize,  this.fontWeight,  this.color});
 
   @override
   Widget build(BuildContext context) {

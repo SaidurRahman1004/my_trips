@@ -13,6 +13,7 @@ import 'package:my_trips/widgets/custom_button.dart';
 import '../../Core/constant.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/custo_snk.dart';
+import '../../widgets/custom_appbar.dart';
 import '../../widgets/custom_text_field.dart';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -84,23 +85,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.trip_origin, size: 50, color: Colors.amber),
-        title: Text(AppConst.AppName),
-        actions: [
-          CircleAvatar(
-            backgroundColor: Colors.amber.shade100,
-            child: IconButton(
-              onPressed: onProfileRouter,
-              icon: Icon(Icons.person),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () => AuthService().logOut(),
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(title: 'Add Trip', showProfileIcon: false),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

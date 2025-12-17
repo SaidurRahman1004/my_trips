@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_trips/models/trip_model.dart';
 import 'package:intl/intl.dart';
+import 'package:my_trips/widgets/CustomText.dart';
 
 import 'custom_button.dart';
 
@@ -24,11 +25,49 @@ class TripCard extends StatelessWidget {
             children: [
               Hero(
                 tag: tripModel.id,
-                child: Image.network(
-                  tripModel.imageUrl,
-                  height: 200,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+                child: ClipRect(
+                  child: Image.network(
+                    tripModel.imageUrl,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        height: 200,
+                        color: Colors.grey.shade100,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.amber,
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                : null,
+                          ),
+                        ),
+                      );
+                    },
+
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 200,
+                        width: double.infinity,
+                        color: Colors.grey.shade100,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.image_not_supported_outlined,
+                              color: Colors.red,
+                              size: 50,
+                            ),
+                            Txt(txt: ' Image Not Available', fntSize: 15,color: Colors.grey,)
+                          ],
+
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
               Positioned.fill(
@@ -83,7 +122,6 @@ class TripCard extends StatelessWidget {
                             style: GoogleFonts.poppins(
                               fontSize: 15,
                               color: Colors.white,
-
                             ),
                           ),
                         ),
@@ -94,7 +132,8 @@ class TripCard extends StatelessWidget {
               ),
             ],
           ),
-          Padding(padding: EdgeInsets.all(16),
+          Padding(
+            padding: EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -109,7 +148,6 @@ class TripCard extends StatelessWidget {
                         color: Colors.grey,
                       ),
                     ),
-
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -130,19 +168,13 @@ class TripCard extends StatelessWidget {
                     const SizedBox(width: 10),
                     CustomButton(
                       buttonName: "Details",
-                      onPressed: ()=> context.go('/details', extra: tripModel),
+                      onPressed: () => context.go('/details', extra: tripModel),
                       icon: Icons.read_more,
                       width: 150,
                       height: 50,
                     ),
-
                   ],
                 ),
-
-
-
-
-
               ],
             ),
           ),
