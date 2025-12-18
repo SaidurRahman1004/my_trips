@@ -2,11 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:my_trips/models/trip_model.dart';
 import 'package:my_trips/widgets/CenterCircularProgressIndicator.dart';
 import 'package:my_trips/widgets/custo_snk.dart';
-import '../../Core/constant.dart';
-import '../../services/auth_service.dart';
 import '../../services/db_service.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/search_widget.dart';
@@ -41,9 +40,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 5),
-            Text(
-              "Last Uodated: 12/12/2023",
-              style: GoogleFonts.poppins(fontSize: 15, color: Colors.grey),
+            FutureBuilder<DateTime?>(
+              future: _dbService.getLastUpdatedDate(currentuser!.uid),
+              builder: (context,snapshot) {
+                if(snapshot.hasData && snapshot != null){
+                  String formattedLastDate= DateFormat('dd/MM/yyyy').format(snapshot.data!);
+                  return Text(
+                    "Last Uodated: ${formattedLastDate}",
+                    style: GoogleFonts.poppins(fontSize: 15, color: Colors.grey),
+                  );
+
+                }else{
+                  return const SizedBox();
+                }
+
+              }
             ),
             const SizedBox(height: 10),
             TripSearchWidget(

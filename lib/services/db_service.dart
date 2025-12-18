@@ -29,6 +29,25 @@ class DBService {
     _db.collection('trips').doc(tripId).delete();
   }
 
+  //Find Last Updated Post
+  Future<DateTime?> getLastUpdatedDate(String uid) async{
+    try{
+      final querySnapshot = await _db.collection('trips').where('userId' , isEqualTo: uid).orderBy(
+          'date',descending: true).limit(1).get();
+
+      if(querySnapshot.docs.isNotEmpty){
+        return (querySnapshot.docs.first.data()['date'] as Timestamp).toDate();
+
+      }
+      return null;
+    }catch(e){
+      print("Error getting last updated date: $e");
+      return null;
+
+    }
+
+  }
+
   //Image Upload Function Or Image Storage //Not Firebase Storage
   Future<String> uploadImage(File imageFile) async{
     try{
@@ -52,7 +71,7 @@ class DBService {
 
     }catch(e){
       throw Exception(e.toString());
-      return '';
+
 
     }
 
