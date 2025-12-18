@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if(snapshot.hasData && snapshot != null){
                   String formattedLastDate= DateFormat('dd/MM/yyyy').format(snapshot.data!);
                   return Text(
-                    "Last Uodated: ${formattedLastDate}",
+                    "Last Updated: ${formattedLastDate}",
                     style: GoogleFonts.poppins(fontSize: 15, color: Colors.grey),
                   );
 

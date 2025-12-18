@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_trips/widgets/CustomText.dart';
 
 import '../Core/constant.dart';
@@ -26,7 +27,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Padding(
             padding: EdgeInsets.only(right: 12.0),
             child: InkWell(
-                onTap: onProfileRouter,
+                onTap: (){
+                  context.push('/profile');
+                },
                 child: CircleAvatar(
                   backgroundColor: Colors.amber.shade100,
                   radius: 20,
@@ -46,8 +49,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  void onProfileRouter() {
-  }
+
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

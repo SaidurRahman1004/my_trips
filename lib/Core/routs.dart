@@ -6,6 +6,7 @@ import '../screens/auth/sign_up_screen.dart';
 import '../screens/auth/signin_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/home/trip_detail_screen.dart';
+import '../screens/profile/profile_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -20,5 +21,6 @@ final GoRouter router = GoRouter(
       final trip = state.extra as TripModel;
       return TripDetailScreen(trip: trip);
     }),
+    GoRoute(path: '/profile',builder: (_,index)=>ProfileScreen()),
   ],
 );
