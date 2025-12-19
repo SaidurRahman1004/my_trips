@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_trips/widgets/custo_snk.dart';
@@ -35,8 +36,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.trip_origin, size: 80, color: Colors.amber),
-                const SizedBox(height: 10),
+                SizedBox(
+                  height: 120,
+                  width: 120,
+                  child: SvgPicture.asset(
+                    'assets/travelsnap_logo.svg',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                //const Icon(Icons.trip_origin, size: 80, color: Colors.amber),
                 Text(
                   AppConst.AppName,
                   style: GoogleFonts.poppins(

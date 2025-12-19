@@ -15,9 +15,16 @@ class TripDetailScreen extends StatelessWidget {
   Future<void> _openMap() async {
     final String googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=${trip
         .latitude},${trip.longitude}';
-    if (await canLaunchUrl(Uri.parse(googleMapsUrl))) {
-      await launchUrl(Uri.parse(googleMapsUrl));
+    try{
+      if (await canLaunchUrl(Uri.parse(googleMapsUrl))) {
+        await launchUrl(Uri.parse(googleMapsUrl,),mode: LaunchMode.externalApplication);
+      }else{
+        throw 'Could not launch $googleMapsUrl';
+      }
+    }catch(e){
+      debugPrint(e.toString());
     }
+
   }
 
   @override

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 640" width="512" height="640">
+    <defs>
+        <linearGradient id="amberGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FFC107;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#FF9800;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="blueAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#42A5F5;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#1E88E5;stop-opacity: 1" />
+        </linearGradient>
+        <filter id="shadow">
+            <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+        </filter>
+    </defs>
+
+    <!-- পুরো আইকন এবং টেক্সটকে একটি গ্রুপে রাখা হয়েছে -->
+    <g transform="translate(0 50)">
+
+        <!-- Background Circle with Shadow -->
+        <circle cx="256" cy="200" r="180" fill="url(#amberGradient)" filter="url(#shadow)"/>
+        <!-- Outer Compass Ring -->
+        <circle cx="256" cy="200" r="140" fill="none" stroke="#FFFFFF" stroke-width="6" opacity="0.9"/>
+        <circle cx="256" cy="200" r="120" fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.6"/>
+        <!-- Compass Cross Lines -->
+        <line x1="256" y1="80" x2="256" y2="130" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+        <line x1="256" y1="270" x2="256" y2="320" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+        <line x1="136" y1="200" x2="186" y2="200" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+        <line x1="326" y1="200" x2="376" y2="200" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+        <!-- Diagonal Lines -->
+        <line x1="196" y1="140" x2="226" y2="170" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+        <line x1="316" y1="140" x2="286" y2="170" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+        <line x1="196" y1="260" x2="226" y2="230" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+        <line x1="316" y1="260" x2="286" y2="230" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+        <!-- Center Circle -->
+        <circle cx="256" cy="200" r="35" fill="#FFFFFF" filter="url(#shadow)"/>
+        <circle cx="256" cy="200" r="25" fill="url(#blueAccent)"/>
+        <!-- North Pointer (Camera Icon for Travel) -->
+        <path d="M256,100 L240,135 L272,135 Z" fill="#FF6F00" filter="url(#shadow)"/>
+        <!-- Camera Lens in Center -->
+        <circle cx="256" cy="200" r="12" fill="#FFFFFF"/>
+        <!-- Location Pin Icon -->
+        <path d="M256,170 C246,170 238,178 238,188 C238,198 256,215 256,215 C256,215 274,198 274,188 C274,178 266,170 256,170 Z" fill="#FF6F00" opacity="0.8"/>
+        <circle cx="256" cy="188" r="4" fill="#FFFFFF"/>
+
+        <!-- App Name -->
+        <text x="256" y="460" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-weight="bold" font-size="64px" fill="#212121">TravelSnap</text>
+
+        <!-- Tagline -->
+        <text x="256" y="510" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-weight="500" font-size="24px" fill="#757575">Save Your Memories</text>
+
+    </g>
+</svg>

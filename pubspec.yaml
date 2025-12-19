@@ -27,6 +27,9 @@ dependencies:
   go_router: ^17.0.0
   http: ^1.6.0
   url_launcher: ^6.3.2
+  firebase_messaging: ^16.1.0
+  flutter_svg: ^2.2.3
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -40,9 +43,32 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/
+    - assets/travelsnap_logo.svg
+    - assets/home_logo.svg
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/travelsnap_logo.png"
+
+  # Adaptive Icon (Android)
+  adaptive_icon_background: "#FFC107"
+  adaptive_icon_foreground: "assets/travelsnap_logo.png"
+
+  # iOS specific
+  ios_icon_image_path: "assets/travelsnap_logo.png"
+
+  # Remove alpha channel for iOS
+  remove_alpha_ios: true
+
+  # Web
+  web:
+    generate: true
+    image_path: "assets/travelsnap_logo.png"
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

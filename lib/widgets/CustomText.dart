@@ -7,12 +7,14 @@ class Txt extends StatelessWidget {
   final FontWeight? fontWeight;
   final Color? color;
 
+
   const Txt({super.key, required this.txt,  this.fntSize,  this.fontWeight,  this.color});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       txt,
+      overflow: TextOverflow.ellipsis,
       style: GoogleFonts.poppins(fontSize: fntSize, fontWeight: fontWeight,color: color),
     );
   }

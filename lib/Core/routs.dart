@@ -7,9 +7,10 @@ import '../screens/auth/signin_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/home/trip_detail_screen.dart';
 import '../screens/profile/profile_screen.dart';
+import '../screens/splash_screen.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/splash',
   debugLogDiagnostics: true,
   routes: [
     GoRoute(path: '/', builder: (_, index) => const AuthWrapper()),
@@ -22,5 +23,9 @@ final GoRouter router = GoRouter(
       return TripDetailScreen(trip: trip);
     }),
     GoRoute(path: '/profile',builder: (_,index)=>ProfileScreen()),
+    GoRoute(
+        path: '/splash',
+        builder: (context, state) => const SplashScreen(),
+    )
   ],
 );

@@ -21,6 +21,9 @@ class AuthService {
       User? user = userCredential.user; //return user when successfull login
 
       if (user != null) {
+        //set Nome in Auth Profile
+        await user.updateDisplayName(name);
+        await user.reload();
         //Add user to firestore
         await _firestore.collection('users').doc(user.uid).set({
           'uid': user.uid,
@@ -28,7 +31,7 @@ class AuthService {
           'name': name,
           'createdAt': Timestamp.now(),
         });
-        return user;
+        return _auth.currentUser;
       }
     } on FirebaseException catch (e) {
       throw Exception(e.message);
