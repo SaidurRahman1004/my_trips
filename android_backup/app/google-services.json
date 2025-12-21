@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "235028248924",
+    "project_id": "my-trips-go",
+    "storage_bucket": "my-trips-go.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235028248924:android:19c70faef73d56d24d2999",
+        "android_client_info": {
+          "package_name": "com.my_tripss.my_trips"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArDAEEZtTXZrCJR9CSrfk4YkKSmovAxd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
