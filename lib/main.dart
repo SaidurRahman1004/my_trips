@@ -5,6 +5,7 @@ import 'package:my_trips/Core/routs.dart';
 import 'package:my_trips/screens/auth/sign_up_screen.dart';
 import 'package:my_trips/screens/auth/signin_screen.dart';
 import 'package:my_trips/services/auth_wraper.dart';
+import 'package:my_trips/services/notification_service.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -13,6 +14,9 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await NotificationService().initNotification();
+
 
   runApp(const MyApp());
 }
