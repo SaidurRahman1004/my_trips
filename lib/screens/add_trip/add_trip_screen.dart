@@ -144,7 +144,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
                       ),
                       const SizedBox(height: 6),
                       InkWell(
-                        onTap: ()=>_pickImage(ImageSource.camera),
+                        onTap: ()=>_pickImage(ImageSource.gallery),
                         child: Container(
                           width: double.infinity,
                           height: 200,

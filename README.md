@@ -1,4 +1,4 @@
-# 📱 TravelSnap - Your Digital Travel Companion
+# 📱 TravelSnap(my_trips) - Your Digital Travel Companion
 
 <div align="center">
 
@@ -57,6 +57,8 @@ This is the first public release.  Here's what works right now:
 | **🗺️ Google Maps Link** | View trip location on Google Maps | ✅ |
 | **⚡ Real-time Updates** | Changes appear instantly (StreamBuilder) | ✅ |
 | **💾 Cloud Backup** | All data stored securely on Firebase | ✅ |
+| **✅Push Notifications:** Stay updated with the latest app versions and announcements directly on your phone.
+| **✅Notification History:** Missed a notification? Check
 
 ### 🚧 What's NOT Included Yet:
 

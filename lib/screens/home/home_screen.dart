@@ -20,11 +20,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final DBService _dbService = DBService();
-  User? currentuser = FirebaseAuth.instance.currentUser;
+
   String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
+    User? currentuser = FirebaseAuth.instance.currentUser;
+    if (currentuser == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       appBar: CustomAppBar(title: 'TravelSnap', showProfileIcon: true),
       body: Padding(
@@ -41,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 5),
             FutureBuilder<DateTime?>(
-              future: _dbService.getLastUpdatedDate(currentuser!.uid),
+              future: _dbService.getLastUpdatedDate(currentuser.uid),
               builder: (context,snapshot) {
                 if(snapshot.hasData && snapshot != null){
                   String formattedLastDate= DateFormat('dd/MM/yyyy').format(snapshot.data!);
@@ -75,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 10),
             Expanded(
               child: StreamBuilder<List<TripModel>>(
-                stream: _dbService.getTripData(currentuser!.uid),
+                stream: _dbService.getTripData(currentuser.uid),
                 builder: (_, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CenterCircularProgressIndicator();

@@ -242,9 +242,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 CustomButton(
                   buttonName: 'Log Out',
                   icon: Icons.logout,
-                  onPressed: () {
+                  onPressed: ()  async{
                     _auth.logOut();
-                    context.go('/login');
+
 
                   },
                 ),
