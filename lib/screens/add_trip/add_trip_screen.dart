@@ -65,18 +65,47 @@ class _AddTripScreenState extends State<AddTripScreen> {
 
   //Location Functions For Lat Kon Adress
   Future<void> _fetchLocation() async {
-    final location = await _locationService.getCurrentLocation();
-    if (location != null) {
-      final address = await _locationService.getLocationAddress(
-        location.latitude,
-        location.longitude,
-      );
+    try{
       setState(() {
-        _lat = location.latitude;
-        _lon = location.longitude;
-        _locationAddress = address;
+        _locationAddress = 'Fetching location...';
       });
+
+      final location = await _locationService.getCurrentLocation();
+      if (location != null) {
+        final address = await _locationService.getLocationAddress(
+          location.latitude,
+          location.longitude,
+        );
+        if(mounted){
+          setState(() {
+            _lat = location.latitude;
+            _lon = location.longitude;
+            _locationAddress = address;
+          });
+        }else{
+          if(mounted){
+            setState(() {
+              _locationAddress = 'Failed to get location';
+            });
+          }
+        }
+      }
+    }catch(e){
+      if (mounted) {
+        setState(() {
+          _locationAddress = 'Error:  $e';
+        });
+      }
     }
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _lat = null;
+    _lon = null;
+    _locationAddress = 'Location not set';
   }
 
   @override

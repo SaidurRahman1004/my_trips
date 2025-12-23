@@ -15,20 +15,20 @@ class LocationService {
     //Check  App Location Permission Status
     locationPermission = await Geolocator.checkPermission();
     if(locationPermission == LocationPermission.deniedForever){
-      Geolocator.openAppSettings();
+      await Geolocator.openAppSettings();
       return Future.error('Location Permission is Denied');
     }
     if(locationPermission == LocationPermission.denied){
       locationPermission = await Geolocator.requestPermission();
       if(locationPermission == LocationPermission.denied){
-        Geolocator.openAppSettings();
+        await Geolocator.openAppSettings();
         return Future.error('Location Permission is Denied');
       }
     }
     //Get Current Location
     return await Geolocator.getCurrentPosition(
-      // desiredAccuracy: LocationAccuracy.high,
-      // forceAndroidLocationManager: true,
+       desiredAccuracy: LocationAccuracy.high,
+       forceAndroidLocationManager: true,
 
     );
 
