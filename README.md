@@ -59,11 +59,11 @@ This is the first public release.  Here's what works right now:
 | **💾 Cloud Backup** | All data stored securely on Firebase | ✅ |
 | **✅Push Notifications:** Stay updated with the latest app versions and announcements directly on your phone.
 | **✅Notification History:** Missed a notification? Check
+| **✅ Offline mode (requires internet)
+| **✅ Image caching (photos reload every time)
 
 ### 🚧 What's NOT Included Yet:
 
-- ❌ Offline mode (requires internet)
-- ❌ Image caching (photos reload every time)
 - ❌ Dark theme
 - ❌ Social features (sharing, following, likes)
 - ❌ Edit trip functionality
@@ -86,7 +86,8 @@ These are planned for future releases based on user feedback.
 > **Note:** Replace these placeholder images with actual app screenshots
 
 ---
-
+**[📥 Download Latest APK](https://github.com/SaidurRahman1004/my_trips/releases/download/v1.0.0-beta-Testing/TravelSnap.V1.8a.app-arm64-v8a-release.apks)** 
+---
 ## 🛠️ Tech Stack
 
 **Frontend:**
@@ -108,14 +109,24 @@ These are planned for future releases based on user feedback.
 **Key Packages:**
 ```yaml
 dependencies:
+  cupertino_icons: ^1.0.8
   firebase_core: ^4.2.1
   firebase_auth: ^6.1.2
   cloud_firestore: ^6.1.0
   image_picker: ^1.2.1
-  geolocator: ^14.0.2
+  permission_handler: ^12.0.1
   geocoding: ^4.0.0
-  go_router: ^17.0.0
-  google_fonts: ^6.3.3
+  geolocator: ^14.0.2
   intl: ^0.20.2
   uuid: ^4.5.2
+  google_fonts: ^6.3.3
+  email_validator: ^3.0.0
+  go_router: ^17.0.0
   http: ^1.6.0
+  url_launcher: ^6.3.2
+  firebase_messaging: ^16.1.0
+  flutter_svg: ^2.2.3
+  flutter_launcher_icons: ^0.14.4
+  # flutter_local_notifications: ^19.5.0
+  badges: ^3.1.2
+  cached_network_image: ^3.4.1
