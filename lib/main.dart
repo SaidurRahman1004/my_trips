@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:my_trips/Core/routs.dart';
@@ -6,7 +7,7 @@ import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb; // Web চেক করার জন্য
 
-@pragma('vm:entry-point')
+@pragma('vm:entry-point') //(TLF)
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   print('Handling a background Message ${message.messageId}');
@@ -16,6 +17,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  //Firebase Ofline Suport Persestance
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true, //Save data local Storage
+    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED, //Unlimited
   );
 
 

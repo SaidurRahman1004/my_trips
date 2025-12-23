@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_trips/models/trip_model.dart';
 import 'package:intl/intl.dart';
 import 'package:my_trips/widgets/CustomText.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'custom_button.dart';
 
 class TripCard extends StatelessWidget {
@@ -26,29 +26,25 @@ class TripCard extends StatelessWidget {
               Hero(
                 tag: tripModel.id,
                 child: ClipRect(
-                  child: Image.network(
-                    tripModel.imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: tripModel.imageUrl,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
+                    progressIndicatorBuilder: (context, url, downloadProgress) {
                       return Container(
                         height: 200,
                         color: Colors.grey.shade100,
                         child: Center(
                           child: CircularProgressIndicator(
                             color: Colors.amber,
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                : null,
+                            value: downloadProgress.progress,
                           ),
                         ),
                       );
                     },
 
-                    errorBuilder: (context, error, stackTrace) {
+                    errorWidget: (context, url,error,) {
                       return Container(
                         height: 200,
                         width: double.infinity,
@@ -61,9 +57,8 @@ class TripCard extends StatelessWidget {
                               color: Colors.red,
                               size: 50,
                             ),
-                            Txt(txt: ' Image Not Available', fntSize: 15,color: Colors.grey,)
+                            Txt(txt: 'Offline / Image Error', fntSize: 15, color: Colors.grey),
                           ],
-
                         ),
                       );
                     },
@@ -159,6 +154,7 @@ class TripCard extends StatelessWidget {
                       child: Text(
                         tripModel.description,
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         style: GoogleFonts.poppins(
                           fontSize: 15,
                           color: Colors.grey,
@@ -170,6 +166,7 @@ class TripCard extends StatelessWidget {
                       buttonName: "Details",
                       onPressed: () => context.go('/details', extra: tripModel),
                       icon: Icons.read_more,
+                      color: Colors.amber,
                       width: 150,
                       height: 50,
                     ),
