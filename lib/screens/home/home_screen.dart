@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:my_trips/models/trip_model.dart';
 import 'package:my_trips/widgets/CenterCircularProgressIndicator.dart';
+import 'package:my_trips/widgets/CustomText.dart';
 import 'package:my_trips/widgets/custo_snk.dart';
 import '../../services/db_service.dart';
 import '../../widgets/custom_appbar.dart';
@@ -121,6 +122,34 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     );
+                  }
+
+                  //if search bax has any content then try to filter otherwise show all
+                  final tripFilterd = tripsList.where((trip){
+                    final tripTitle = trip.title.toLowerCase();
+                    final tripDescription = trip.description.toLowerCase();  // Convert description to lowercase
+                    final query = _searchQuery.toLowerCase(); // Convert query to lowercase
+                    // Check if either title or description contains the query
+                    return tripTitle.contains(query) || tripDescription.contains(query);
+
+                  }).toList();
+
+                  if (tripFilterd.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.search_off,
+                            size: 80,
+                            color: Colors.amber,
+                          ),
+                          const SizedBox(height: 10),
+                          Txt(txt: _searchQuery.isEmpty ?"No Trips Found" :"No result found for '$_searchQuery' ",fntSize: 20,fontWeight: FontWeight.bold,)
+                        ],
+                      ),
+                    );
+
                   }
 
                   return ListView.builder(

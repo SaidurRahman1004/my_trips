@@ -62,56 +62,60 @@ class NotificationScreen extends StatelessWidget {
             );
           }
 
-          return SafeArea(
-            child: ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (_, index) {
-                final data = snapshot.data!.docs[index].data() as Map<String,dynamic>;
+          return Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SafeArea(
+              child: ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (_, index) {
+                  final data = snapshot.data!.docs[index].data() as Map<String,dynamic>;
 
-                String title = data['title'] ?? 'Notice';
-                String body = data['body'] ?? '';
-                String type = data['type'] ?? 'info'; // 'update' or 'info'
-                String? link = data['link'];
-                Timestamp? timestamp = data['createdAt'];
+                  String title = data['title'] ?? 'Notice';
+                  String body = data['body'] ?? '';
+                  String type = data['type'] ?? 'info'; // 'update' or 'info'
+                  String? link = data['link'];
+                  Timestamp? timestamp = data['createdAt'];
 
-                String time = timestamp != null ?
-                    DateFormat('dd MMM, hh:mm a').format(timestamp.toDate()) : '';
-                return Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  margin: const EdgeInsets.only(bottom: 12),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.amber.shade100,
-                        radius: 20,
-                        child: Icon(Icons.notifications, color: Colors.amber),
-                      ),
-                      title:  Txt(txt: title),
-                      subtitle: Column(
-                        children: [
-                           Txt(txt: body,color: Colors.grey,),
-                           SizedBox(height: 10),
-                           Txt(txt: time),
+                  String time = timestamp != null ?
+                      DateFormat('dd MMM, hh:mm a').format(timestamp.toDate()) : '';
+                  return Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    margin: const EdgeInsets.only(bottom: 12),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.amber.shade100,
+                          radius: 20,
+                          child: Icon(Icons.notifications, color: Colors.amber),
+                        ),
+                        title:  Txt(txt: title),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                             Txt(txt: body,color: Colors.grey,),
+                             SizedBox(height: 10),
+                             Txt(txt: time),
 
-                          if (type == 'update' && link != null && link.isNotEmpty)...[
-                            const SizedBox(height: 12),
-                            SizedBox(
-                                height: 35,
-                                width: 100,
-                                child: CustomButton(buttonName: 'View', onPressed: ()=> _launchUrl(link))),
+                            if (type == 'update' && link != null && link.isNotEmpty)...[
+                              const SizedBox(height: 12),
+                              SizedBox(
+                                  height: 35,
+                                  width: 100,
+                                  child: CustomButton(buttonName: 'View', onPressed: ()=> _launchUrl(link))),
 
-                          ]
-          
-                        ],
+                            ]
+
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           );
         }

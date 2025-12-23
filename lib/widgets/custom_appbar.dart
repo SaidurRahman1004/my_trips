@@ -67,13 +67,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.amber,
               ),
             ),
-
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () async{
-                await AuthService().logOut();
-              },
-            ),
           ],
         );
       },
@@ -82,4 +75,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+
 }

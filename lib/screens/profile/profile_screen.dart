@@ -210,10 +210,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fntSize: 28,
                       fontWeight: FontWeight.bold,
                     ),
-                    IconButton(onPressed: (){
-                      _updateName();
-                    }, icon: Icon(Icons.edit_note,size: 40,color: Colors.blue,)),
-
+                    IconButton(
+                      onPressed: () {
+                        _updateName();
+                      },
+                      icon: Icon(Icons.edit_note, size: 40, color: Colors.blue),
+                    ),
                   ],
                 ),
 
@@ -242,16 +244,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 CustomButton(
                   buttonName: 'Log Out',
                   icon: Icons.logout,
-                  onPressed: ()  async{
-                    _auth.logOut();
-
-
-                  },
+                  onPressed: _onLogout,
                 ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> _onLogout() async{
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Txt(
+          txt: 'Log Out',
+          fontWeight: FontWeight.bold,
+          fntSize: 20,
+        ),
+        content: Txt(
+          txt: 'Are you sure you want to log out?',
+          fntSize: 15,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Txt(txt: 'Cencle',fontWeight: FontWeight.bold),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await _auth.logOut();
+            },
+            child: Txt(txt: 'Log Out',color: Colors.red,fontWeight: FontWeight.bold,),
+          ),
+        ],
       ),
     );
   }
