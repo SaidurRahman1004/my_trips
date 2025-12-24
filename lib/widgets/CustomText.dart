@@ -6,9 +6,11 @@ class Txt extends StatelessWidget {
   final double? fntSize;
   final FontWeight? fontWeight;
   final Color? color;
+  final TextAlign? textAlign;
 
 
-  const Txt({super.key, required this.txt,  this.fntSize,  this.fontWeight,  this.color});
+
+  const Txt({super.key, required this.txt,  this.fntSize,  this.fontWeight,  this.color, this.textAlign});
 
   @override
   Widget build(BuildContext context) {

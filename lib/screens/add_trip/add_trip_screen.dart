@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_trips/widgets/CenterCircularProgressIndicator.dart';
+import 'package:my_trips/widgets/buildPrivacyOption.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -35,6 +36,7 @@ class _AddTripScreenState extends State<AddTripScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool _isLoading = false;
+  bool _isPublic = false;  //Privacy Toggle Public/Privet
   File? _imageFile;
   Uint8List? _imageBytes; //image for web
   double? _lat, _lon;
@@ -166,6 +168,55 @@ class _AddTripScreenState extends State<AddTripScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: _isPublic ? Colors.blue.shade200 : Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: _isPublic ? Colors.blue : Colors.amber,
+                            width: 2,
+
+                          )
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                _isPublic ? Icon(Icons.public, color: Colors.blue,) : Icon(Icons.lock, color: Colors.amber,),
+                                const SizedBox(width: 5,),
+                                Txt(txt: _isPublic ? 'Share Settings Public' : 'Share Settings Privet', fontWeight: FontWeight.bold,)
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Expanded(child: buildPrivacyOption(
+                                    title: 'Public',
+                                    subTitle: 'Anyone can see this trip',
+                                    icon: Icons.public,
+                                    isPublic: _isPublic,
+                                    onTap: ()=> setState(() => _isPublic = true)),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(child: buildPrivacyOption(
+                                    title: 'Private',
+                                    subTitle: 'Only you can see',
+                                    icon: Icons.lock,
+                                    isPublic: !_isPublic,
+                                    onTap: ()=> setState(() => _isPublic = false)),
+                                ),
+
+                              ],
+                            ),
+
+
+
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
                       Txt(
                         txt: 'Trip Photo',
                         fntSize: 20,
@@ -380,6 +431,11 @@ class _AddTripScreenState extends State<AddTripScreen> {
         longitude: _lon!,
         imageUrl: imageUrl,
         date: DateTime.now(),
+        userName: _auth.currentUser!.displayName ?? 'Anonymous',
+        isPublic: _isPublic,
+        userPhoto: _auth.currentUser!.photoURL,
+        likesCount: 0,
+        commentsCount: 0,
       );
 
       //sent 'newTrip' all  data to firebase throw dbService
