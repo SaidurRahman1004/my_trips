@@ -32,12 +32,11 @@ class DBService {
         .limit(50)
         .snapshots()
         .map((snapshots) {
-      return snapshots.docs.map((doc) {
-        return TripModel.fromMap(doc.data(), doc.id);
-      }).toList();
-    });
+          return snapshots.docs.map((doc) {
+            return TripModel.fromMap(doc.data(), doc.id);
+          }).toList();
+        });
   }
-
 
   //Save or Put data
   Future<void> saveTrip(TripModel tripModel) async {
@@ -94,6 +93,96 @@ class DBService {
         throw Exception('Failed to upload image');
       }
     } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  //Like Trip Logic
+  Future<void> likeTrip(String tripId, String userId) async {
+    try {
+      final likeId = '${userId}_$tripId';
+      final likeRef = await _db.collection('likes').doc(likeId).get();
+      if (likeRef.exists) {
+        //find alredy liked
+        await _db.collection('likes').doc(likeId).delete();
+        //Decrement Like
+        await _db.collection('trips').doc(tripId).update({
+          'likesCount': FieldValue.increment(-1),
+        });
+      } else {
+        await _db.collection('likes').doc(likeId).set({
+          'id': likeId,
+          'tripId': tripId,
+          'userId': userId,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+        //Increment Like
+        await _db.collection('trips').doc(tripId).update({
+          'likesCount': FieldValue.increment(1),
+        });
+      }
+    } catch (e) {
+      print('Like error: $e');
+      throw Exception(e.toString());
+    }
+  }
+
+  //cheak User Already Liked For Ui
+  Future<bool> isUserLiked(String tripId, String userId) async {
+    try {
+      final likeId = '${userId}_$tripId';
+      final likeRef = await _db.collection('likes').doc(likeId).get();
+      return likeRef.exists;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  //Find All Coments for  Specific Trip
+  Stream<QuerySnapshot> getComments(String tripId) {
+    return _db
+        .collection('comments')
+        .where('tripId', isEqualTo: tripId)
+        .orderBy('timestamp', descending: false)
+        .snapshots();
+  }
+
+  //Add or Save Comment
+  Future<void> addComment({
+    required String tripId,
+    required String userId,
+    required String userName,
+    required String? userPhotoUrl,
+    required String comment,
+  }) async {
+    try{
+      final commentRef = _db.collection('comments').doc();
+      await commentRef.set({
+        'id': commentRef.id,
+        'tripId': tripId,
+        'userId': userId,
+        'userName': userName,
+        'userPhotoUrl': userPhotoUrl,
+        'comment': comment,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      //Increment Comment Count
+      await _db.collection('trips').doc(tripId).update({
+        'commentsCount': FieldValue.increment(1),
+      });
+    }catch(e){
+      print('Comment error: $e');
+      throw Exception(e.toString());
+    }
+  }
+  Future<void> deleteComment(String commentId, String tripId) async{
+    try{
+      await _db.collection('comments').doc(commentId).delete();
+      await _db.collection('trips').doc(tripId).update({
+        'commentsCount': FieldValue.increment(-1),
+      });
+    }catch(e){
+      print('Comment error: $e');
       throw Exception(e.toString());
     }
   }
