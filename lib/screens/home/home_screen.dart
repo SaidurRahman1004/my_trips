@@ -11,6 +11,8 @@ import '../../services/db_service.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/search_widget.dart';
 import '../../widgets/trip_card.dart';
+import 'feed_tab.dart';
+import 'my_trips_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,173 +21,76 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  final User? currentUser = FirebaseAuth.instance.currentUser;
   final DBService _dbService = DBService();
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
-    User? currentuser = FirebaseAuth.instance.currentUser;
-    if (currentuser == null) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+    if (currentUser == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     return Scaffold(
       appBar: CustomAppBar(title: 'TravelSnap', showProfileIcon: true),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Memories of your travel",
-              style: GoogleFonts.poppins(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 5),
-            FutureBuilder<DateTime?>(
-              future: _dbService.getLastUpdatedDate(currentuser.uid),
-              builder: (context,snapshot) {
-                if(snapshot.hasData && snapshot != null){
-                  String formattedLastDate= DateFormat('dd/MM/yyyy').format(snapshot.data!);
-                  return Text(
-                    "Last Updated: ${formattedLastDate}",
-                    style: GoogleFonts.poppins(fontSize: 15, color: Colors.grey),
-                  );
-
-                }else{
-                  return const SizedBox();
-                }
-
-              }
-            ),
-            const SizedBox(height: 10),
-            TripSearchWidget(
-              onSearch: (onSearchquery) {
-                setState(() {
-                  _searchQuery = onSearchquery;
-                });
-              },
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "Your Trips",
-              style: GoogleFonts.poppins(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            color: Colors.white,
+            child: TabBar(
+              controller: _tabController,
+              indicatorColor: Colors.amber,
+              indicatorWeight: 3,
+              labelColor: Colors.amber,
+              unselectedLabelColor: Colors.grey,
+              labelStyle: GoogleFonts.poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: StreamBuilder<List<TripModel>>(
-                stream: _dbService.getTripData(currentuser.uid),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CenterCircularProgressIndicator();
-                  }
-                  if (snapshot.hasError) {
-                    return Text("Error: ${snapshot.error}");
-                  }
-
-                  final tripsList = snapshot.data ?? [];
-
-                  if (tripsList == null || tripsList.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.warning_amber,
-                            size: 80,
-                            color: Colors.amber,
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "No Trips Found",
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-
-                          const SizedBox(height: 10),
-                          Text(
-                            "Add your first trip",
-                            style: GoogleFonts.poppins(fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-
-                  //if search bax has any content then try to filter otherwise show all
-                  final tripFilterd = tripsList.where((trip){
-                    final tripTitle = trip.title.toLowerCase();
-                    final tripDescription = trip.description.toLowerCase();  // Convert description to lowercase
-                    final query = _searchQuery.toLowerCase(); // Convert query to lowercase
-                    // Check if either title or description contains the query
-                    return tripTitle.contains(query) || tripDescription.contains(query);
-
-                  }).toList();
-
-                  if (tripFilterd.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.search_off,
-                            size: 80,
-                            color: Colors.amber,
-                          ),
-                          const SizedBox(height: 10),
-                          Txt(txt: _searchQuery.isEmpty ?"No Trips Found" :"No result found for '$_searchQuery' ",fntSize: 20,fontWeight: FontWeight.bold,)
-                        ],
-                      ),
-                    );
-
-                  }
-
-                  return ListView.builder(
-                    itemCount: tripsList.length,
-                    itemBuilder: (context, index) {
-                      final AccesstripList = tripsList[index];
-                      return TweenAnimationBuilder(
-                        tween: Tween<double>(begin: 0, end: 1),
-                        duration: Duration(milliseconds: 400 + (index * 100)),
-                        builder:
-                            (
-                              BuildContext context,
-                              double value,
-                              child,
-                            ) {
-                          return Opacity(
-                            opacity: value,
-                            child: Transform.translate(offset: Offset(0, 30*(1-value)),
-                              child: child,
-                            ),
-                          );
-                            },
-                        child: TripCard(
-                          tripModel: AccesstripList,
-                          onDelete: () {
-                            _showDeleteDialog(context, AccesstripList.id);
-                          },
-                        ),
-                      );
-                    },
-                  );
-                },
+              unselectedLabelStyle: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
+
+              tabs: const [
+                Tab(
+                  icon: Icon(Icons.public),
+                  text: 'Feed',
+                ),
+                Tab(
+                  icon: Icon(Icons.person),
+                  text: 'My Trips',
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+
+          //Tab View
+          Expanded(child: TabBarView(
+            controller: _tabController,
+              children: [
+                FeedTab(),
+                MyTripsTab(),
+
+
+              ]))
+        ],
       ),
 
       floatingActionButton: FloatingActionButton(
@@ -196,8 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-
 
   void _onAddTrip() {
     context.go('/addscreen');
