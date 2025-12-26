@@ -24,7 +24,7 @@ class DBService {
   }
 
   //Get New Public Post only
-  Stream<List<TripModel>> getPublicTripData(String uid) {
+  Stream<List<TripModel>> getPublicTripData( ) {
     return _db
         .collection('trips')
         .where('isPublic', isEqualTo: true)

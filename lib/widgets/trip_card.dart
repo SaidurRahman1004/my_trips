@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_trips/models/trip_model.dart';
 import 'package:intl/intl.dart';
 import 'package:my_trips/widgets/CustomText.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'custom_button.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class TripCard extends StatelessWidget {
   final TripModel tripModel;
