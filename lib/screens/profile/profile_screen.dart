@@ -82,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Txt(txt: 'Cencle'),
+              child: Txt(txt: 'Cancel'),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -125,8 +125,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     const double outerRadius = 70;
     const double innerRadius = 65;
-    const double avatarDiameter = outerRadius * 2;
-    const double cameraRadius = 20;
     User? user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
@@ -263,16 +261,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           fontWeight: FontWeight.bold,
           fntSize: 20,
         ),
-        content: Txt(
-          txt: 'Are you sure you want to log out?',
-          fntSize: 15,
-        ),
+        content: Text('Are you sure you want to log out?',style: TextStyle(fontSize: 15),),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Txt(txt: 'Cencle',fontWeight: FontWeight.bold),
+            child: Txt(txt: 'Cancel',fontWeight: FontWeight.bold),
           ),
           TextButton(
             onPressed: () async {

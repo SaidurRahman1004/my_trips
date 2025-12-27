@@ -87,7 +87,7 @@ class _FeedTabState extends State<FeedTab> {
                 return _buildHeader();
               }
               final tripIndex = index - 1;
-              final AccesstripList = publicTrips[index];
+              final AccesstripList = publicTrips[tripIndex];
               return TweenAnimationBuilder(
                 tween: Tween<double>(begin: 0, end: 1),
                 duration: Duration(milliseconds: 400 + (index * 100)),

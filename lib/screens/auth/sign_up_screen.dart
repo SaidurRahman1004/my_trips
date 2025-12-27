@@ -240,6 +240,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = _onRouteSignUp,
                               ),
+
                             ],
                           ),
                         ),

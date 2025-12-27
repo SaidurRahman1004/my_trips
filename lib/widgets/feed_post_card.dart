@@ -31,7 +31,6 @@ class _FeedPostCardState extends State<FeedPostCard> {
   bool _isLiked = false;
   bool _isLiking = false;
 
-  //cheak user is liked
   Future<void> _checkLikeStatus() async {
     final liked = await _dbService.isUserLiked(
       widget.trip.id,
@@ -44,7 +43,6 @@ class _FeedPostCardState extends State<FeedPostCard> {
     }
   }
 
-  //like toggle
   Future<void> _toggleLike() async {
     if (_isLiking) return;
     setState(() {
@@ -72,16 +70,16 @@ class _FeedPostCardState extends State<FeedPostCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16, left: 10, right: 10, top: 5),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 0,
+            spreadRadius: 1,
             blurRadius: 10,
-            offset: const Offset(0, 2),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -89,7 +87,7 @@ class _FeedPostCardState extends State<FeedPostCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(12.0),
             child: Row(
               children: [
                 CircleAvatar(
@@ -100,12 +98,15 @@ class _FeedPostCardState extends State<FeedPostCard> {
                       : null,
                   child: widget.trip.userPhoto == null
                       ? Txt(
-                          txt: widget.trip.userName[0].toLowerCase(),
-                          fontWeight: FontWeight.bold,
-                          color: Colors.amber,
-                        )
+                    txt: widget.trip.userName.isNotEmpty
+                        ? widget.trip.userName[0].toUpperCase()
+                        : 'U',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.amber,
+                  )
                       : null,
                 ),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,14 +114,15 @@ class _FeedPostCardState extends State<FeedPostCard> {
                       Txt(
                         txt: widget.trip.userName,
                         fontWeight: FontWeight.bold,
-                        fntSize: 14,
+                        fntSize: 15,
                       ),
                       Row(
                         children: [
                           Icon(Icons.public, size: 12, color: Colors.grey),
+                          const SizedBox(width: 4),
                           Txt(
                             txt: DateFormat(
-                              'dd/MM/yyyy',
+                              'dd MMM yyyy',
                             ).format(widget.trip.date),
                             color: Colors.grey,
                             fntSize: 12,
@@ -133,68 +135,81 @@ class _FeedPostCardState extends State<FeedPostCard> {
               ],
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Txt(
-                txt: widget.trip.title,
-                fontWeight: FontWeight.bold,
-                fntSize: 16,
-              ),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  Icon(Icons.location_on, size: 12, color: Colors.red[400]),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: Txt(
-                      txt: widget.trip.location,
-                      color: Colors.grey,
-                      fntSize: 12,
-                    ),
-                  ),
-                  if (widget.trip.description.isNotEmpty) ...[
-                    const SizedBox(width: 8),
-                    Txt(
-                      txt: widget.trip.description,
-                      fntSize: 14,
-                      color: Colors.grey[800],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Txt(
+                  txt: widget.trip.title,
+                  fontWeight: FontWeight.bold,
+                  fntSize: 16,
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    Icon(Icons.location_on, size: 14, color: Colors.red[400]),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Txt(
+                        txt: widget.trip.location,
+                        color: Colors.grey.shade700,
+                        fntSize: 13,
+                      ),
                     ),
                   ],
+                ),
+                if (widget.trip.description.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Txt(
+                    txt: widget.trip.description,
+                    fntSize: 14,
+                    color: Colors.grey[800],
+                    maxLines: 3,
+                  ),
                 ],
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           GestureDetector(
             onTap: () => context.push('/details', extra: widget.trip),
             child: Hero(
               tag: 'feed_${widget.trip.id}',
               child: CachedNetworkImage(
                 imageUrl: widget.trip.imageUrl,
-                height: 200,
+                height: 220,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: (context, url, downloadProgress) {
                   return Container(
-                    height: 300,
+                    height: 220,
                     color: Colors.grey.shade100,
-                    child: CenterCircularProgressIndicator(),
+                    child: Center(
+                        child: CircularProgressIndicator(
+                          value: downloadProgress.progress,
+                          color: Colors.amber,
+                        )),
                   );
                 },
                 errorWidget: (context, url, error) {
                   return Container(
-                    height: 300,
-                    color: Colors.grey,
-                    child: Icon(Icons.error, size: 50),
+                    height: 220,
+                    color: Colors.grey.shade200,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                        Txt(txt: 'Image not available', color: Colors.grey)
+                      ],
+                    ),
                   );
                 },
               ),
             ),
           ),
-          //like Comment Share
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(12.0),
             child: Row(
               children: [
                 InkWell(
@@ -210,21 +225,20 @@ class _FeedPostCardState extends State<FeedPostCard> {
                         Icon(
                           _isLiked ? Icons.favorite : Icons.favorite_border,
                           color: _isLiked ? Colors.red : Colors.grey,
-                          size: 20,
+                          size: 22,
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 6),
                         Txt(
                           txt: widget.trip.likesCount.toString(),
                           fntSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: _isLiked ? Colors.red : Colors.grey,
+                          color: _isLiked ? Colors.red : Colors.grey.shade700,
                         ),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
-                //comment
+                const SizedBox(width: 16),
                 InkWell(
                   onTap: () {
                     _showCommentsBottomSheet(context);
@@ -240,13 +254,13 @@ class _FeedPostCardState extends State<FeedPostCard> {
                         Icon(
                           Icons.comment_outlined,
                           color: Colors.grey,
-                          size: 20,
+                          size: 22,
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 6),
                         Txt(
                           txt: widget.trip.commentsCount.toString(),
                           fontWeight: FontWeight.w600,
-                          color: Colors.grey,
+                          color: Colors.grey.shade700,
                         ),
                       ],
                     ),
@@ -261,6 +275,8 @@ class _FeedPostCardState extends State<FeedPostCard> {
                     fntSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
+                  icon: Icon(
+                      Icons.arrow_forward, size: 16, color: Colors.amber),
                 ),
               ],
             ),
@@ -273,17 +289,24 @@ class _FeedPostCardState extends State<FeedPostCard> {
   void _showCommentsBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      isDismissible: true,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => CommentsBottomSheet(
-        tripId: widget.trip.id,
-        currentUserId: widget.currentUserId,
-      ),
+      builder: (context) =>
+          Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery
+                  .of(context)
+                  .viewInsets
+                  .bottom,
+            ),
+            child: CommentsBottomSheet(
+              tripId: widget.trip.id,
+              currentUserId: widget.currentUserId,
+            ),
+          ),
     );
   }
 }
-
-//Comment Options
 
 class CommentsBottomSheet extends StatefulWidget {
   final String tripId;
@@ -311,35 +334,49 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
   }
 
   Future<void> _postComment() async {
-    if (_commentController.text.trim().isEmpty || _isPosting) return;
+    if (_commentController.text
+        .trim()
+        .isEmpty || _isPosting) return;
     setState(() {
       _isPosting = true;
     });
 
     try {
       final user = FirebaseAuth.instance.currentUser;
+      final String safeUserName = user?.displayName ?? 'User';
+      final String? safePhotoUrl = user?.photoURL;
+
       await _dbService.addComment(
         tripId: widget.tripId,
         userId: widget.currentUserId,
-        userName: widget.currentUserId,
-        userPhotoUrl: user?.photoURL,
+        userName: safeUserName,
+        userPhotoUrl: safePhotoUrl,
         comment: _commentController.text.trim(),
       );
+      _commentController.clear();
+      if (mounted) {
+        FocusScope.of(context).unfocus();
+      }
     } catch (e) {
-      mySnkmsg('Failed to post comment: $e ', context);
+      if (mounted) {
+        mySnkmsg('Failed to post comment', context);
+      }
     } finally {
-      setState(() {
-        _isPosting = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isPosting = false;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.2,
-      minChildSize: 0.1,
-      maxChildSize: 0.5,
+      initialChildSize: 0.6,
+      minChildSize: 0.4,
+      maxChildSize: 0.9,
+      expand: false,
       builder: (_, scrollController) {
         return Container(
           decoration: BoxDecoration(
@@ -357,7 +394,6 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -375,7 +411,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                   ],
                 ),
               ),
-              const Divider(),
+              const Divider(height: 1),
               Expanded(
                 child: StreamBuilder(
                   stream: _dbService.getComments(widget.tripId),
@@ -384,9 +420,7 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                       return CenterCircularProgressIndicator();
                     }
                     if (snapshot.hasError) {
-                      return Center(
-                        child: Txt(txt: 'Error: ${snapshot.error}'),
-                      );
+                      return Center(child: Txt(txt: 'Something went wrong'));
                     }
                     final comments = snapshot.data?.docs ?? [];
                     if (comments.isEmpty) {
@@ -395,19 +429,13 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.comment_outlined,
-                              size: 60,
-                              color: Colors.grey[400],
+                              Icons.chat_bubble_outline,
+                              size: 50,
+                              color: Colors.grey.shade300,
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 10),
                             Txt(
                               txt: 'No comments yet',
-                              fntSize: 16,
-                              color: Colors.grey[500],
-                            ),
-                            Txt(
-                              txt: 'Be the first to comment!',
-                              fntSize: 14,
                               color: Colors.grey,
                             ),
                           ],
@@ -417,59 +445,64 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                     return ListView.builder(
                       controller: scrollController,
                       itemCount: comments.length,
+                      padding: const EdgeInsets.all(16),
                       itemBuilder: (_, index) {
                         final commentData =
-                            comments[index].data() as Map<String, dynamic>;
+                        comments[index].data() as Map<String, dynamic>;
                         return Container(
-                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          margin: const EdgeInsets.only(bottom: 16),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CircleAvatar(
+                                radius: 18,
                                 backgroundColor: Colors.amber.shade100,
                                 backgroundImage:
-                                    commentData['userPhotoUrl'] != null
-                                    ? NetworkImage(commentData['userPhotoUrl'])
+                                commentData['userPhotoUrl'] != null
+                                    ? NetworkImage(
+                                    commentData['userPhotoUrl'])
                                     : null,
                                 child: commentData['userPhotoUrl'] == null
                                     ? Txt(
-                                        txt: commentData['userName'][0]
-                                            .toUpperCase(),
-                                        fntSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.amber,
-                                      )
+                                  txt: commentData['userName'][0]
+                                      .toUpperCase(),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.amber,
+                                  fntSize: 12,
+                                )
                                     : null,
-                                radius: 20,
                               ),
-                              //comment content
+                              const SizedBox(width: 10),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Txt(
-                                      txt: commentData['userName'] ?? 'Unknown',
-                                      fntSize: 14,
-                                      fontWeight: FontWeight.bold,
+                                    Row(
+                                      children: [
+                                        Txt(
+                                          txt: commentData['userName'] ??
+                                              'Unknown',
+                                          fontWeight: FontWeight.bold,
+                                          fntSize: 13,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Txt(
+                                          txt: _formatTimestamp(
+                                              commentData['timestamp']),
+                                          fntSize: 10,
+                                          color: Colors.grey,
+                                        ),
+                                      ],
                                     ),
                                     const SizedBox(height: 4),
                                     Txt(
                                       txt: commentData['comment'] ?? '',
                                       fntSize: 14,
-                                      color: Colors.grey,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Txt(
-                                      txt: _formatTimestamp(
-                                        commentData['timestamp'],
-                                      ),
-                                      fntSize: 12,
-                                      color: Colors.grey,
+                                      color: Colors.black87,
                                     ),
                                   ],
                                 ),
                               ),
-                              //Delet own  comment
                               if (commentData['userId'] == widget.currentUserId)
                                 IconButton(
                                   onPressed: () async {
@@ -478,10 +511,13 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                                       widget.tripId,
                                     );
                                   },
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.delete_outline,
                                     size: 18,
+                                    color: Colors.red.shade300,
                                   ),
+                                  padding: EdgeInsets.zero,
+                                  constraints: BoxConstraints(),
                                 ),
                             ],
                           ),
@@ -491,43 +527,41 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
                   },
                 ),
               ),
-              //Comment Input
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 0,
-                      blurRadius: 4,
-                      offset: const Offset(0, -2),
-                    ),
-                  ],
+                  border: Border(
+                    top: BorderSide(color: Colors.grey.shade200),
+                  ),
                 ),
                 child: Row(
                   children: [
                     Expanded(
                       child: CustomTextField(
                         controller: _commentController,
-                        lableText: 'Add a comment',
-                        hintText: 'Write your comment here...',
-                        icon: Icons.comment_outlined,
-                        maxLine: 3,
-
+                        lableText: 'Add a comment...',
+                        hintText: 'Write here...',
+                        maxLine: 1,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    IconButton(onPressed: _postComment, icon: _isPosting ?
-                        const SizedBox(
-                          height: 20,
+                    const SizedBox(width: 10),
+                    CircleAvatar(
+                      backgroundColor: Colors.amber,
+                      child: IconButton(
+                        onPressed: _isPosting ? null : _postComment,
+                        icon: _isPosting
+                            ? SizedBox(
                           width: 20,
-                          child: CenterCircularProgressIndicator(),
-
-                        ): const Icon(Icons.send),
-                      color: Colors.amber,
-                    ) ,
-
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                            : Icon(Icons.send, color: Colors.white, size: 20),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -540,17 +574,14 @@ class _CommentsBottomSheetState extends State<CommentsBottomSheet> {
 
   String _formatTimestamp(dynamic timestamp) {
     if (timestamp == null) return 'Just now';
-
     try {
       final DateTime dateTime = (timestamp as Timestamp).toDate();
       final now = DateTime.now();
       final difference = now.difference(dateTime);
 
       if (difference.inMinutes < 1) return 'Just now';
-      if (difference.inHours < 1) return '${difference.inMinutes}m ago';
-      if (difference.inDays < 1) return '${difference.inHours}h ago';
-      if (difference.inDays < 7) return '${difference.inDays}d ago';
-
+      if (difference.inMinutes < 60) return '${difference.inMinutes}m ago';
+      if (difference.inHours < 24) return '${difference.inHours}h ago';
       return DateFormat('dd MMM').format(dateTime);
     } catch (e) {
       return 'Just now';
