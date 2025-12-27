@@ -23,6 +23,7 @@ class TripCard extends StatelessWidget {
         children: [
           Stack(
             children: [
+              //Image
               Hero(
                 tag: tripModel.id,
                 child: ClipRect(
@@ -44,7 +45,7 @@ class TripCard extends StatelessWidget {
                       );
                     },
 
-                    errorWidget: (context, url,error,) {
+                    errorWidget: (context, url, error) {
                       return Container(
                         height: 200,
                         width: double.infinity,
@@ -57,7 +58,11 @@ class TripCard extends StatelessWidget {
                               color: Colors.red,
                               size: 50,
                             ),
-                            Txt(txt: 'Offline / Image Error', fntSize: 15, color: Colors.grey),
+                            Txt(
+                              txt: 'Offline / Image Error',
+                              fntSize: 15,
+                              color: Colors.grey,
+                            ),
                           ],
                         ),
                       );
@@ -65,29 +70,68 @@ class TripCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned.fill(
+              // Gradient
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
                 child: Container(
+                  height: 100,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withOpacity(0.8),
-                      ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.black.withOpacity(0.7),
+                      ],
                     ),
                   ),
                 ),
               ),
-
+              //Privacy Badge
               Positioned(
-                top: 10,
-                right: 10,
+                top: 12,
+                left: 12,
+
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: tripModel.isPublic
+                        ? Colors.blue.withOpacity(0.9)
+                        : Colors.amber.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        tripModel.isPublic ? Icons.public : Icons.lock,
+                        size: 14,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(width: 4),
+                      Txt(
+                        txt: tripModel.isPublic ? 'Public' : 'Private',
+                        fntSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              //Delete Icon
+              Positioned(
+                top: 8,
+                right: 8,
                 child: CircleAvatar(
                   backgroundColor: Colors.white.withOpacity(0.5),
                   child: IconButton(
                     onPressed: onDelete,
-                    icon: Icon(Icons.delete),
+                    icon: Icon(Icons.delete_outline),
+                    color: Colors.red,
                   ),
                 ),
               ),
@@ -95,6 +139,7 @@ class TripCard extends StatelessWidget {
                 bottom: 16,
                 left: 16,
                 right: 16,
+                //title and location
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -127,6 +172,7 @@ class TripCard extends StatelessWidget {
               ),
             ],
           ),
+          //calender
           Padding(
             padding: EdgeInsets.all(16),
             child: Column(
@@ -145,6 +191,8 @@ class TripCard extends StatelessWidget {
                     ),
                   ],
                 ),
+
+
                 const SizedBox(height: 10),
 
                 Row(
