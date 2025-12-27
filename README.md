@@ -1,4 +1,4 @@
-# 📱 TravelSnap(my_trips) - Your Digital Travel Companion
+# TravelSnap - Social Travel Platform
 
 <div align="center">
 
@@ -7,107 +7,203 @@
 [![Flutter](https://img.shields.io/badge/Flutter-3.10+-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
 [![Firebase](https://img.shields.io/badge/Firebase-Integrated-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com)
 [![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-green. svg?style=for-the-badge)](LICENSE)
 
-**[📥 Download APK](https://github.com/SaidurRahman1004/my_trips/releases)** • **[🐛 Report Bug](https://github.com/SaidurRahman1004/my_trips/issues)** • **[💡 Request Feature](saidurrahman1004@gmail.com)**
+**[📥 Download APK](https://github.com/SaidurRahman1004/my_trips/releases)** • **[🐛 Report Bug](https://github.com/SaidurRahman1004/my_trips/issues)** • **[💡 Request Feature](https://github.com/SaidurRahman1004/my_trips/issues)**
 
-  <p align="center">
-    <strong>v1.0.0 Beta - Testing Release</strong>
-  </p>
+<p align="center">
+  <strong>Version 2.0.0 - Major Social Update</strong><br>
+  <em>From Personal Diary to Social Travel Community</em>
+</p>
+
 </div>
 
 ---
 
 ## 🌟 What is TravelSnap?
 
-TravelSnap is a mobile app that helps travelers organize and preserve their memories.  Instead of having hundreds of random photos scattered in your gallery, TravelSnap creates a structured digital diary where each trip has its own space—with photos, locations, dates, and personal notes.
+**TravelSnap** has evolved from a simple personal travel diary into a **full-featured social travel platform** where travelers can not only preserve their memories but also share their adventures with a global community.
 
-Think of it as your personal travel journal that never gets lost.
+Whether you want to keep your trips private or inspire others by sharing publicly, TravelSnap gives you the flexibility to do both.  Connect with fellow travelers, discover new destinations, and build your travel legacy—all in one beautiful app.
 
-### The Problem It Solves:
-
-- 📸 **Lost memories**: Photos buried in camera rolls, never to be seen again
-- 🗺️ **No context**: Forgot where that amazing beach photo was taken
-- 📱 **Data loss**: Phone lost or broken = memories gone forever
-- 🔍 **Hard to find**: Scrolling through thousands of photos to find one trip
-
-### The Solution:
-
-- ✅ **Organized timeline**: All trips in one place, sorted by date
-- ✅ **Automatic location tagging**: GPS captures where each memory was made
-- ✅ **Cloud backup**: Safe in the cloud, accessible from any device
-- ✅ **Quick search**: Find any trip by name, location, or description
-- ✅ **Rich context**: Photos + location + story = complete memory
+> **"Your journey, your choice—private memories or shared inspiration."**
 
 ---
 
-## ✨ Features (v1.0 Beta Temporary v1 For Testing)
+## 🎯 Core Philosophy
 
-This is the first public release.  Here's what works right now:
+### The Problem We Solve:
+
+- 📸 **Lost Memories**: Thousands of photos scattered across devices with no organization
+- 🗺️ **Missing Context**: Beautiful photos with forgotten locations and stories
+- 📱 **Data Loss Risk**: One broken phone = all memories gone forever
+- 🔍 **Discovery Gap**: Travelers can't find authentic experiences from real people
+- 🤝 **Isolation**: Travel experiences locked away instead of inspiring others
+
+### Our Solution:
+
+- ✅ **Dual Mode**: Keep trips private or share them publicly—your choice
+- ✅ **Smart Organization**: GPS-tagged, searchable, cloud-synced memories
+- ✅ **Social Discovery**:  Explore real travel stories from a global community
+- ✅ **Engagement**: Like, comment, and connect with fellow travelers
+- ✅ **Forever Safe**: Cloud backup ensures your memories are never lost
+
+---
+
+## ✨ Features Overview
+
+### 🔐 **Core Features**
 
 | Feature | Description | Status |
 |---------|-------------|: ------:|
-| **🔐 User Authentication** | Secure sign-up and login with email/password | ✅ |
-| **📝 Create Trips** | Add new travel memories with title, description, and photo | ✅ |
-| **📍 GPS Location Tagging** | Automatic location capture using device GPS | ✅ |
-| **📸 Photo Integration** | Take photos or pick from gallery | ✅ |
-| **☁️ Cloud Sync** | Real-time data synchronization with Firebase | ✅ |
-| **🔍 Search Functionality** | Find trips by title, location, or keywords | ✅ |
-| **🗑️ Delete Trips** | Remove unwanted memories (with confirmation) | ✅ |
-| **🗺️ Google Maps Link** | View trip location on Google Maps | ✅ |
-| **⚡ Real-time Updates** | Changes appear instantly (StreamBuilder) | ✅ |
-| **💾 Cloud Backup** | All data stored securely on Firebase | ✅ |
-| **✅Push Notifications:** Stay updated with the latest app versions and announcements directly on your phone.
-| **✅Notification History:** Missed a notification? Check
-| **✅ Offline mode (requires internet)
-| **✅ Image caching (photos reload every time)
+| **🔑 Secure Authentication** | Email/password sign-up with Firebase Auth | ✅ |
+| **🔒 Privacy Control** | Choose Public or Private for each trip | ✅ |
+| **📸 Photo Upload** | Camera capture or gallery selection | ✅ |
+| **📍 Auto GPS Tagging** | Automatic location capture with readable addresses | ✅ |
+| **☁️ Cloud Sync** | Real-time Firestore synchronization | ✅ |
+| **🔍 Smart Search** | Search by title, location, or description | ✅ |
+| **⚡ Real-time Updates** | Live feed updates with StreamBuilder | ✅ |
 
-### 🚧 What's NOT Included Yet:
+### 🌐 **Social Features (NEW in v2.0)**
 
-- ❌ Dark theme
-- ❌ Social features (sharing, following, likes)
-- ❌ Edit trip functionality
-- ❌ Multi-photo support (one photo per trip currently)
-- ❌ Advanced filters
+| Feature | Description | Status |
+|---------|-------------|:------:|
+| **🌍 Community Feed** | Discover public posts from travelers worldwide | ✅ |
+| **❤️ Like System** | Express appreciation with likes | ✅ |
+| **💬 Comments** | Engage in conversations on posts | ✅ |
+| **👤 User Profiles** | View traveler profiles with their public journeys | ✅ |
+| **🚩 Report System** | Report inappropriate content | ✅ |
+| **🗑️ Content Management** | Edit/delete your own posts | ✅ |
 
-These are planned for future releases based on user feedback.
+### 🔔 **Additional Features**
+
+| Feature | Description | Status |
+|---------|-------------|:------:|
+| **🔔 Push Notifications** | FCM for app updates and announcements | ✅ |
+| **📬 Notification History** | In-app notification center | ✅ |
+| **🗺️ Google Maps Integration** | Direct navigation to trip locations | ✅ |
+| **📊 Trip Statistics** | Track your travel journey | ✅ |
+
+### 🚧 **Coming Soon**
+
+- 📡 **Offline Mode** - Access trips without internet
+- 🎨 **Dark Theme** - Easy on the eyes
+- ✏️ **Full Edit Support** - Modify trips after posting
+- 📸 **Multiple Photos** - Upload photo galleries
+- 👥 **Follow System** - Follow your favorite travelers
+- 🏆 **Achievements** - Gamification and badges
+- 🌍 **Travel Map** - Visualize all your destinations on a world map
+- 📊 **Advanced Analytics** - Detailed travel statistics
 
 ---
 
-## 📸 Screenshots(Temporary v1 For Testing)
+## 📸 Screenshots
 
 <div align="center">
-  <img src="https://i.ibb.co.com/DDssdKyp/login.jpg" alt="Login" width="200"/>
-  <img src="https://i.ibb.co.com/rKN15MkD/home.jpg" alt="Home" width="200"/>
-  <img src="https://i.ibb.co.com/B27p0PFm/add.jpg" alt="Add Trip" width="200"/>
-  <img src="https://i.ibb.co.com/qYhT26Y8/detail.jpg" alt="Details" width="200"/>
+
+### Authentication & Onboarding
+<img src="https://i.postimg.cc/28Vd5MWd/signin.png" alt="Sign In" width="250"/>
+
+*Secure email/password authentication with clean Material Design 3 UI*
+
+---
+
+### Home Experience - Dual Tab Interface
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://i.postimg.cc/5N65tTzb/home.png" alt="Community Feed" width="250"/><br>
+      <b>Community Feed</b><br>
+      <em>Discover public trips from travelers worldwide</em>
+    </td>
+    <td align="center">
+      <img src="https://i.postimg.cc/5N65tTzJ/home-Privet.png" alt="My Trips" width="250"/><br>
+      <b>My Trips</b><br>
+      <em>Your personal collection of public & private memories</em>
+    </td>
+  </tr>
+</table>
+
+---
+
+### Creating a Trip - Privacy at Your Fingertips
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://i.postimg.cc/c42Rth78/add-Trip1.png" alt="Add Trip - Privacy" width="250"/><br>
+      <b>Privacy Selection</b><br>
+      <em>Choose Public (share with community) or Private (keep it personal)</em>
+    </td>
+    <td align="center">
+      <img src="https://i.postimg.cc/d3S8Bmbr/add-Trip2.png" alt="Add Trip - Details" width="250"/><br>
+      <b>Trip Details</b><br>
+      <em>Photo, title, description, and automatic GPS location tagging</em>
+    </td>
+  </tr>
+</table>
+
+---
+
+### Trip Details & Engagement
+
+<img src="https://i.postimg.cc/xTcGdhmX/detail.png" alt="Trip Details" width="250"/>
+
+*View full trip details with location, story, and Google Maps integration*
+
+---
+
+### User Profile & Notifications
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://i.postimg.cc/zXVwf6hj/profile.png" alt="Profile" width="250"/><br>
+      <b>User Profile</b><br>
+      <em>Manage account, view stats, and update profile photo</em>
+    </td>
+    <td align="center">
+      <img src="https://i.postimg.cc/Dy8QzHGG/Notifications.png" alt="Notifications" width="250"/><br>
+      <b>Notification Center</b><br>
+      <em>Stay updated with app news and announcements</em>
+    </td>
+  </tr>
+</table>
+
 </div>
 
-> **Note:** Replace these placeholder images with actual app screenshots
-
 ---
-**[📥 Download Latest APK](https://github.com/SaidurRahman1004/my_trips/releases/download/v1.0.0-beta-Testing/TravelSnap.V1.8a.app-arm64-v8a-release.apks)** 
----
-## 🛠️ Tech Stack
 
-**Frontend:**
-- Flutter 3.10+
-- Dart 3.0+
-- Material Design 3
+## 🏗️ Technical Architecture
 
-**Backend & Services:**
-- Firebase Authentication (user management)
-- Cloud Firestore (NoSQL database)
-- Firebase Storage (image hosting)
-- ImgBB API (temporary image hosting)
+### **Tech Stack**
 
-**Architecture:**
-- Service-based architecture
-- MVC pattern
-- StreamBuilder for reactive UI
-
-**Key Packages:**
 ```yaml
+Frontend:
+  Framework: Flutter 3.10+
+  Language: Dart 3.0+
+  UI:  Material Design 3
+  State Management: StreamBuilder + StatefulWidget
+  Navigation: GoRouter (Declarative routing)
+
+Backend & Cloud:
+  Authentication: Firebase Auth
+  Database: Cloud Firestore (NoSQL)
+  Notifications: Firebase Cloud Messaging (FCM)
+  Image Hosting: ImgBB API
+  
+Location Services:
+  GPS:  Geolocator
+  Geocoding:  Geocoding package
+  Maps: Google Maps integration
+
+Architecture:
+  Pattern: Service-based MVC
+  Data Flow: Reactive (Streams)
+  Security: Firestore Security Rules
+
+Architecture:
 dependencies:
   cupertino_icons: ^1.0.8
   firebase_core: ^4.2.1
