@@ -24,7 +24,7 @@ class DBService {
   }
 
   //Get New Public Post only
-  Stream<List<TripModel>> getPublicTripData( ) {
+  Stream<List<TripModel>> getPublicTripData() {
     return _db
         .collection('trips')
         .where('isPublic', isEqualTo: true)
@@ -46,6 +46,22 @@ class DBService {
   //delet data
   Future<void> deletTrip(String tripId) async {
     _db.collection('trips').doc(tripId).delete();
+  }
+
+  //Update Trip Data
+  Future<void> updateTripData(TripModel tripModel) async {
+    try{
+      await _db.collection('trips').doc(tripModel.id).update({
+        'title': tripModel.title,
+        'description': tripModel.description,
+        'isPublic': tripModel.isPublic,
+        'userName': tripModel.userName,
+        'userPhoto': tripModel.userPhoto,
+      });
+    }catch(e){
+      throw Exception(e.toString());
+    }
+
   }
 
   //Find Last Updated Post
@@ -155,7 +171,7 @@ class DBService {
     required String? userPhotoUrl,
     required String comment,
   }) async {
-    try{
+    try {
       final commentRef = _db.collection('comments').doc();
       await commentRef.set({
         'id': commentRef.id,
@@ -170,18 +186,19 @@ class DBService {
       await _db.collection('trips').doc(tripId).update({
         'commentsCount': FieldValue.increment(1),
       });
-    }catch(e){
+    } catch (e) {
       print('Comment error: $e');
       throw Exception(e.toString());
     }
   }
-  Future<void> deleteComment(String commentId, String tripId) async{
-    try{
+
+  Future<void> deleteComment(String commentId, String tripId) async {
+    try {
       await _db.collection('comments').doc(commentId).delete();
       await _db.collection('trips').doc(tripId).update({
         'commentsCount': FieldValue.increment(-1),
       });
-    }catch(e){
+    } catch (e) {
       print('Comment error: $e');
       throw Exception(e.toString());
     }

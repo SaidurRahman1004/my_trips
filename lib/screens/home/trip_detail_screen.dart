@@ -31,87 +31,86 @@ class TripDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  Hero(
-                    tag: trip.id,
-                    child: Image.network(
-                      trip.imageUrl,
-                      width: double.infinity,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 10,
-                    left: 10,
-                    child: InkWell(
-                      onTap: () => context.go('/home'),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Icon(Icons.arrow_back),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    Hero(
+                      tag: trip.id,
+                      child: Image.network(
+                        trip.imageUrl,
+                        width: double.infinity,
+                        height: 200,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Txt(
-                txt: trip.title,
-                fntSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-              Row(
-                children: [
-                  Icon(Icons.calendar_month, color: Colors.red, size: 15),
-                  const SizedBox(width: 5),
-                  Expanded(
-                    child: Txt(
-                      txt: DateFormat('dd MMMM, yyyy').format(trip.date),
-                      fntSize: 15,
-                      color: Colors.blue.shade400,
+          
+                    Positioned(
+                      top: 10,
+                      left: 10,
+                      child: InkWell(
+                        onTap: () => context.go('/home'),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: Icon(Icons.arrow_back),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-
-              Row(
-                children: [
-                  Icon(Icons.location_on, color: Colors.red, size: 15),
-                  const SizedBox(width: 5),
-                  Expanded(
-                    child: Txt(
-                      txt: trip.location,
-                      fntSize: 15,
-                      color: Colors.black,
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Txt(
+                  txt: trip.title,
+                  fntSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.calendar_month, color: Colors.red, size: 15),
+                    const SizedBox(width: 5),
+                    Expanded(
+                      child: Txt(
+                        txt: DateFormat('dd MMMM, yyyy').format(trip.date),
+                        fntSize: 15,
+                        color: Colors.blue.shade400,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Divider(color: Colors.blue, thickness: 1),
-              const SizedBox(height: 10),
-              Txt(txt: 'The Story', fntSize: 25, fontWeight: FontWeight.bold),
-              const SizedBox(height: 15),
-              Txt(
-                txt: trip.description,
-                fntSize: 15,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 20),
-              CustomButton(
-                icon: Icons.map_outlined,
-                buttonName: 'Open Google Maps',
-                onPressed: () => _openMap(),
-                color: Colors.amber,
-              ),
-            ],
+                  ],
+                ),
+          
+                Row(
+                  children: [
+                    Icon(Icons.location_on, color: Colors.red, size: 15),
+                    const SizedBox(width: 5),
+                    Expanded(
+                      child: Txt(
+                        txt: trip.location,
+                        fntSize: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Divider(color: Colors.blue, thickness: 1),
+                const SizedBox(height: 10),
+                Txt(txt: 'The Story', fntSize: 25, fontWeight: FontWeight.bold),
+                const SizedBox(height: 15),
+                Text(trip.description,style: TextStyle(fontSize: 15,color: Colors.grey),),
+                const SizedBox(height: 20),
+                CustomButton(
+                  icon: Icons.map_outlined,
+                  buttonName: 'Open Google Maps',
+                  onPressed: () => _openMap(),
+                  color: Colors.amber,
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),

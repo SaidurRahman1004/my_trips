@@ -10,8 +10,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 class TripCard extends StatelessWidget {
   final TripModel tripModel;
   final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
-  const TripCard({super.key, required this.tripModel, required this.onDelete});
+  const TripCard({super.key, required this.tripModel, required this.onDelete, required this.onEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -122,17 +123,39 @@ class TripCard extends StatelessWidget {
                 ),
               ),
 
-              //Delete Icon
+
+
+              //Edit and Delete Icon
               Positioned(
                 top: 8,
                 right: 8,
-                child: CircleAvatar(
-                  backgroundColor: Colors.white.withOpacity(0.5),
-                  child: IconButton(
-                    onPressed: onDelete,
-                    icon: Icon(Icons.delete_outline),
-                    color: Colors.red,
-                  ),
+                child: Row(
+
+                  children: [
+                    //Edit Icon
+                    CircleAvatar(
+                      backgroundColor: Colors.white.withOpacity(0.8),
+                      child: IconButton(
+                        onPressed: onEdit,
+                        icon: Icon(Icons.edit_note_outlined),
+                        color: Colors.blue,
+                        tooltip: 'Edit Trip',
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+
+
+                    //Delete Icon
+                    CircleAvatar(
+                      backgroundColor: Colors.white.withOpacity(0.8),
+                      child: IconButton(
+                        onPressed: onDelete,
+                        icon: Icon(Icons.delete_outline),
+                        color: Colors.red,
+                        tooltip: 'Delete Trip',
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Positioned(
