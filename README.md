@@ -63,6 +63,8 @@ Whether you want to keep your trips private or inspire others by sharing publicl
 | **☁️ Cloud Sync** | Real-time Firestore synchronization | ✅ |
 | **🔍 Smart Search** | Search by title, location, or description | ✅ |
 | **⚡ Real-time Updates** | Live feed updates with StreamBuilder | ✅ |
+| **⚡✏️ Full Edit Support** | Modify trips after posting | ✅ |
+
 
 ### 🌐 **Social Features (NEW in v2.0)**
 
@@ -82,13 +84,11 @@ Whether you want to keep your trips private or inspire others by sharing publicl
 | **🔔 Push Notifications** | FCM for app updates and announcements | ✅ |
 | **📬 Notification History** | In-app notification center | ✅ |
 | **🗺️ Google Maps Integration** | Direct navigation to trip locations | ✅ |
-| **📊 Trip Statistics** | Track your travel journey | ✅ |
+| **📊 Offline Mode** | Access trips without internet | ✅ |
 
 ### 🚧 **Coming Soon**
 
-- 📡 **Offline Mode** - Access trips without internet
 - 🎨 **Dark Theme** - Easy on the eyes
-- ✏️ **Full Edit Support** - Modify trips after posting
 - 📸 **Multiple Photos** - Upload photo galleries
 - 👥 **Follow System** - Follow your favorite travelers
 - 🏆 **Achievements** - Gamification and badges
